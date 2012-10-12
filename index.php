@@ -70,23 +70,24 @@ $feed->init();
 // This makes sure that the content is sent to the browser as text/html and the UTF-8 character set (since we didn't change it).
 $feed->handle_content_type();
  
-// Let's begin our XHTML webpage code.  The DOCTYPE is supposed to be the very first thing, so we'll keep it on the same line as the closing-PHP tag.
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-        "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
- 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+// Let's begin our HTML webpage code.  The DOCTYPE is supposed to be the very first thing, so we'll keep it on the same line as the closing-PHP tag.
+?><!DOCTYPE html>
+<html>
 <head>
+  <meta charset="utf-8">
   <title>Scribus Planet</title>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="description" content="Aggregated news and feeds about the Scribus desktop publishing software">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
  
   <div class="header">
-    <h1><a href="<?php echo $feed->get_permalink(); ?>">Scribus Planet</a></h1>
+    <h1 class="h1 header-title"><a href="<?php echo $feed->get_permalink(); ?>">Scribus Planet</a></h1>
     <p>This is the Scribus Planet and it collects posts from:</p>
-    <ul>
+    <ul class="feed-list">
     <?php foreach ($feed_list as $key => $value) : ?>
-        <li><a href="<?php echo($value['url']); ?>"><?php echo($value['label']); ?></a></li>
+        <li class="li"><a href="<?php echo($value['url']); ?>"><?php echo($value['label']); ?></a></li>
     <?php endforeach; ?>
     </ul>
   </div>
@@ -110,7 +111,7 @@ $feed->handle_content_type();
   ?>
  
     <div class="item">
-      <h2><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
+      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
       <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
       <p>[ <a href="http://www.google.com/translate?u=<?php echo($item->get_permalink()); ?> &hl=en&ie=UTF8&langpair=<?php echo($translate[$feed_link]); ?>|en">Translate</a> ]</p>
       <?php endif; ?>
