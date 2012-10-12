@@ -14,3 +14,4 @@ TODO:
 - check if the caching mechanism of simple pie is enough or if we need something more
 - add further types of feeds / use better or multiple services for the existing ones
 - add the original BSD license in the simplepie directory
+- remove the .svn directories in the simplepie directory
