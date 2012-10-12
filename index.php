@@ -121,7 +121,12 @@ $feed->handle_content_type();
     }
   ?>
  
-    <article class="item <?php echo($value['css']); ?>">
+    <article class="item <?php 
+    
+    		// echo ['css'] key of the feed array
+        // here we must find a way to retrieve the ['css'] key of the feed
+    
+     ?>">
 	    <div class="inside">
 	      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
 	      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
@@ -129,7 +134,7 @@ $feed->handle_content_type();
 	      <?php endif; ?>
 	
 	      <p><?php echo $content; ?></p>
-	      <p><small>Posted on <?php echo $item->get_date('j F Y | g:i a'); ?></small></p>
+	      <p><small class="post-date">Posted on <?php echo $item->get_date('j F Y | g:i a'); ?></small></p>
 	    </div>
     </article>
  
