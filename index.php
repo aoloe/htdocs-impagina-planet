@@ -81,16 +81,18 @@ $feed->handle_content_type();
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
- 
-  <div class="header">
-    <h1 class="h1 header-title"><a href="<?php echo $feed->get_permalink(); ?>">Scribus Planet</a></h1>
-    <p>This is the Scribus Planet and it collects posts from:</p>
-    <ul class="feed-list">
-    <?php foreach ($feed_list as $key => $value) : ?>
-        <li class="li"><a href="<?php echo($value['url']); ?>"><?php echo($value['label']); ?></a></li>
-    <?php endforeach; ?>
-    </ul>
-  </div>
+  <div class="container">
+		<header class="header">
+			<div class="inside">
+			  <h1 class="h1 header-title"><a href="<?php echo $feed->get_permalink(); ?>">Scribus Planet</a></h1>
+			  <p>This is the Scribus Planet and it collects posts from:</p>
+			  <ul class="feed-list">
+			  <?php foreach ($feed_list as $key => $value) : ?>
+			      <li class="li"><a href="<?php echo($value['url']); ?>"><?php echo($value['label']); ?></a></li>
+			  <?php endforeach; ?>
+			  </ul>
+			</div>
+		</header>
  
   <?php
   /*
@@ -110,17 +112,19 @@ $feed->handle_content_type();
     }
   ?>
  
-    <div class="item">
-      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
-      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
-      <p>[ <a href="http://www.google.com/translate?u=<?php echo($item->get_permalink()); ?> &hl=en&ie=UTF8&langpair=<?php echo($translate[$feed_link]); ?>|en">Translate</a> ]</p>
-      <?php endif; ?>
-
-      <p><?php echo $content; ?></p>
-      <p><small>Posted on <?php echo $item->get_date('j F Y | g:i a'); ?></small></p>
-    </div>
+    <article class="item">
+	    <div class="inside">
+	      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
+	      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
+	      <p>[ <a href="http://www.google.com/translate?u=<?php echo($item->get_permalink()); ?> &hl=en&ie=UTF8&langpair=<?php echo($translate[$feed_link]); ?>|en">Translate</a> ]</p>
+	      <?php endif; ?>
+	
+	      <p><?php echo $content; ?></p>
+	      <p><small>Posted on <?php echo $item->get_date('j F Y | g:i a'); ?></small></p>
+	    </div>
+    </article>
  
   <?php endforeach; ?>
- 
+	</div>
 </body>
 </html>
