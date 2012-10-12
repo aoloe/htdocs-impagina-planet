@@ -13,3 +13,4 @@ TODO:
   (a.l.e: i have some code, i'm going to publish soon for the mapping of csv files to an entity)
 - check if the caching mechanism of simple pie is enough or if we need something more
 - add further types of feeds / use better or multiple services for the existing ones
+- add the original BSD license in the simplepie directory
