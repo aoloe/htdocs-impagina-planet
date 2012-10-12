@@ -8,38 +8,46 @@
 $feed_list = array (
     'http://gplus-to-rss.appspot.com/rss/109612024486187515483' => array (
         'label' => 'g+',
+        'css' => 'google-plus',
         'url' => 'https://plus.google.com/b/109612024486187515483/109612024486187515483/posts'
     ),
     'http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=scribus' => array (
         'label' => 'twitter',
+        'css' => 'twitter',
         'url' => 'http://twitter.com/scribus',
     ),
     'http://www.wallflux.com/info/114175708594284' => array (
         'label' => 'facebook',
+        'css' => 'facebook',
         'url' => 'http://www.facebook.com/groups/114175708594284/',
     ),
     
     'http://rants.scribus.net/feed/' => array (
         'label' => 'Scribus developer blog',
+        'css' => 'scribus-dev-blog blog',
         'url' => 'http://rants.scribus.net',
     ),
     'http://graphicslab.org/blog/?rss' => array (
         'label' => 'a.l.e\'s graphicslab',
+        'css' => 'graphicslab blog',
         'url' => 'http://graphicslab.org/blog',
         'tag' => 'scribus',
     ),
     'http://seenthis.net/people/chelen/feed' => array (
         'label' => 'Chelen\'s GSoC 2012 (Undo / UI)',
+        'css' => 'gsoc blog',
         'url' => 'http://seenthis.net/people/chelen',
         'language' => 'fr',
         'format' => 'markdown',
     ),
     'http://googlesummerofscribus.blogspot.com/feeds/posts/default?alt=rss' => array (
         'label' => 'Rajat\'s GSoC 2012 (Project manager)',
+        'css' => 'gsoc blog',
         'url' => 'http://googlesummerofscribus.blogspot.in/',
     ),
     'http://summerofscribus.blogspot.com/feeds/posts/default?alt=rss' => array (
         'label' => 'Parthasarathy \'s GSoC 2012 (New file format)',
+        'css' => 'gsoc blog',
         'url' => 'http://summerofscribus.blogspot.in/',
     ),
 );
@@ -113,7 +121,7 @@ $feed->handle_content_type();
     }
   ?>
  
-    <article class="item">
+    <article class="item <?php echo($value['css']); ?>">
 	    <div class="inside">
 	      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
 	      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
