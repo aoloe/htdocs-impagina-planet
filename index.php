@@ -88,6 +88,11 @@ $feed->handle_content_type();
   <meta name="viewport" content="width=device-width">
   <link href='//fonts.googleapis.com/css?family=Quattrocento+Sans:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/style.css">
+  
+  
+  <!--[if lt IE 9]>
+  <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
 </head>
 <body>
   <div class="container">
@@ -102,7 +107,9 @@ $feed->handle_content_type();
 			  </ul>
 			</div>
 		</header>
- 
+		<section class="planet-container">
+			<div id="freetile">
+				<div class="freetile-container">
   <?php
   /*
   Here, we'll loop through all of the items in the feed, and $item represents the current item in the loop.
@@ -120,25 +127,30 @@ $feed->handle_content_type();
         }
     }
   ?>
- 
-    <article class="item <?php 
-    
-    		// echo ['css'] key of the feed array
-        // here we must find a way to retrieve the ['css'] key of the feed
-    
-     ?>">
-	    <div class="inside">
-	      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
-	      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
-	      <p>[ <a href="http://www.google.com/translate?u=<?php echo($item->get_permalink()); ?> &hl=en&ie=UTF8&langpair=<?php echo($translate[$feed_link]); ?>|en">Translate</a> ]</p>
-	      <?php endif; ?>
-	
-	      <p><?php echo $content; ?></p>
-	      <p><small class="post-date">Posted on <?php echo $item->get_date('j F Y | g:i a'); ?></small></p>
-	    </div>
-    </article>
- 
+			    <article class="item <?php 
+			    
+			    		// echo ['css'] key of the feed array
+			        // here we must find a way to retrieve the ['css'] key of the feed
+			    
+			     ?>">
+				    <div class="inside">
+				      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
+				      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
+				      <p>[ <a href="http://www.google.com/translate?u=<?php echo($item->get_permalink()); ?> &hl=en&ie=UTF8&langpair=<?php echo($translate[$feed_link]); ?>|en">Translate</a> ]</p>
+				      <?php endif; ?>
+				
+				      <div class"post-content"><?php echo $content; ?></div>
+				      <p><small class="post-date">Posted on <?php echo $item->get_date('j F Y | g:i a'); ?></small></p>
+				    </div>
+			    </article>
+
   <?php endforeach; ?>
+  			</div>
+      </div>
+    </section>
 	</div>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/libs/jquery-1.8.2.min.js"><\/script>')</script>
+	<script src="js/jquery.freetile.min.js"></script>
 </body>
 </html>
