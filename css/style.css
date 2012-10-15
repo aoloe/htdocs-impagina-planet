@@ -35,7 +35,7 @@ img {
 }
 
 .container {
-	background: #fff;
+/*	background: #fff;*/
 /*	margin: 1em;	*/
 }
 
@@ -48,7 +48,7 @@ img {
 .header {	
 	box-shadow: 0 0 12px #c7d0dd;
 	margin-bottom: 0.7em;
-	
+	background-color: #fff;
 }
 
 .header .inside {
@@ -60,14 +60,17 @@ img {
 
 .item {
 /*	border: 1px solid #333;*/
-	max-width: 400px;
-	float: left;	
+	/*max-width: 400px;*/
+	width: 100%;
+	float: left;
 }
 
 .item .inside {
 	margin: 1em;
 	background: #fff;
 	box-shadow: 0 0 12px #c7d0dd;
+/*	border: 1px solid #98a0b9;
+	border-radius: 5px;*/
 }
 
 .header-title,
@@ -75,7 +78,36 @@ img {
 	margin-top: 0;
 }
 
-.item p {
+.item-title {
+/*	font-size: 126%;
+	line-height: 1.3em*/
+}
+
+.item {
+/*-ms-word-break: break-all;
+     word-break: break-all;*/
+        
+     word-break: break-word;
+     word-wrap: break-word;
+
+     /*
+-webkit-hyphens: auto;
+   -moz-hyphens: auto;
+        hyphens: auto;*/
+}
+
+.planet-container {
+		position: relative;
+		margin: 0 1em;
+}
+
+#freetile {
+	position: relative;
+	width: 100%;
+}
+.freetile-container {
+/*	width: 100%;*/
+	overflow-x: hidden;
 }
 
 /* @end */
@@ -93,4 +125,25 @@ pre {
 .blog .post-date {
 /*	padding-left: 2em;
 	background: url('../img/icons/rss.png') no-repeat left top;*/
+}
+
+/* CSS3 Media Query increments: 480, 600, 768, 992 and 1382px */ 
+
+@media only screen and (min-width: 768px) {
+  .item {
+  	width: 50%;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .item {
+  	width: 33.3%;
+  }
+}
+@media only screen and (min-width: 1382px) {
+  .item {
+  	width: 25%;
+  }
+  body {
+/*    max-width: 1440px;*/
+  }
 }
