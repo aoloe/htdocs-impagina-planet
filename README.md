@@ -15,3 +15,4 @@ TODO:
 - add further types of feeds / use better or multiple services for the existing ones
 - add the original BSD license in the simplepie directory
 - remove the .svn directories in the simplepie directory
+- for specific sources, is it possible to get only the posts with specific tags? (#scribus)
