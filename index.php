@@ -87,8 +87,7 @@ $feed->handle_content_type();
   <meta name="description" content="Aggregated news and feeds about the Scribus desktop publishing software">
   <meta name="viewport" content="width=device-width">
   <link href='//fonts.googleapis.com/css?family=Quattrocento+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="css/style.css">
-  
+  <link rel="stylesheet" href="css/style.css">  
   
   <!--[if lt IE 9]>
   <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -98,7 +97,7 @@ $feed->handle_content_type();
   <div class="container">
 		<header class="header">
 			<div class="inside">
-			  <h1 class="h1 header-title"><a href="<?php echo $feed->get_permalink(); ?>">Scribus Planet</a></h1>
+			  <h1 class="h1 header-title"><a href="<?php echo $feed->get_permalink(); ?>" class="black">Scribus Planet</a></h1>
 			  <p>This is the Scribus Planet and it collects posts from:</p>
 			  <ul class="feed-list">
 			  <?php foreach ($feed_list as $key => $value) : ?>
@@ -128,19 +127,39 @@ $feed->handle_content_type();
     }
   ?>
 			    <article class="item <?php 
-			    
+			    		// #1:
 			    		// echo ['css'] key of the feed array
 			        // here we must find a way to retrieve the ['css'] key of the feed
+			        
+			        // #2:
+			        // test length to determine if we show the whole post:
+			        if (strlen($content)>400) {
+			          echo " long-post";
+			        }
 			    
 			     ?>">
-				    <div class="inside">
+				    <div class="inside item-inside">
 				      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
 				      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
 				      <p>[ <a href="http://www.google.com/translate?u=<?php echo($item->get_permalink()); ?> &hl=en&ie=UTF8&langpair=<?php echo($translate[$feed_link]); ?>|en">Translate</a> ]</p>
 				      <?php endif; ?>
 				
-				      <div class"post-content"><?php echo $content; ?></div>
-				      <p><small class="post-date">Posted on <?php echo $item->get_date('j F Y | g:i a'); ?></small></p>
+				      <div class="post-content"><?php echo $content;
+				      
+				      // add expansion for long content
+				      
+				      if (strlen($content)>400) {
+				        ?><div class="bottom-gradient"></div>
+				        </div>
+				        
+				        <div class="open-close open-button hidden"><a href="#" class="closed black">read more</a></div>
+				        
+				        <div class="open-close close-button hidden"><a href="#" class="closed black close-button">close</a>
+				        <?php
+				      }
+				      
+				       ?></div>
+				      <p><small class="post-date secondary">Posted on <?php echo $item->get_date('j F Y | g:i a'); ?></small></p>
 				    </div>
 			    </article>
 
@@ -149,8 +168,10 @@ $feed->handle_content_type();
       </div>
     </section>
 	</div>
+	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script>window.jQuery || document.write('<script src="js/libs/jquery-1.8.2.min.js"><\/script>')</script>
 	<script src="js/jquery.freetile.min.js"></script>
+	<script src="js/scripts.js"></script>
 </body>
 </html>
