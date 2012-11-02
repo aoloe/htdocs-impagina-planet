@@ -24,7 +24,6 @@ $(document).ready(function() {
 $(".open-button").show();
 
 // prepare some markup
-
 $(document.body).append("<div id='reader' class='reader hidden'><div class='reader-inside'></div></div><div id='mask' class='mask-layer hidden close-button'></div>");
 
 
@@ -40,9 +39,8 @@ $(document.body).append("<div id='reader' class='reader hidden'><div class='read
   };
 })( jQuery );
 
-
 /*  
- 2. What happens when we click the button
+ 2. What happens when we open the reader
 */
 
 $(".open-button").on("click", function() {
@@ -51,17 +49,14 @@ $(".open-button").on("click", function() {
 	
 	var item_height = $(this).parent().height();
 	var new_container_height = ($(window).height()) - 260;
+			    
+	$('#reader').fadeIn(100);
+	$('#mask').fadeIn(200);
 	
-	// $(this).removeClass('closed').addClass('open');
-		    
-	$('#reader').fadeIn(200);
 	$('#reader .reader-inside').html(clonage);
 	
-	// alert ('height:'+new_container_height);
-	// $('#reader .post-content').css({'height': new_container_height+'px'});
 	$('#reader .post-content').css({'height': 'auto','max-height': new_container_height+'px'});
 		    
-	$('#mask').fadeIn(200);
 	return false;
 });
 
@@ -69,27 +64,15 @@ $(".open-button").on("click", function() {
  2. What happens when we close the reader
 */
 
-$("#mask").on("click", function() {
-	// alert('close');
-	$(document).closeReader();
-});
-
 $(".close-button").on("click", function() {
-	// alert('close');
 	$(document).closeReader();
 });
 
 // Use the ESC key:
-
 $(document).keyup(function(e) {
   if (e.keyCode == 27) { 
-  	//alert('ok');
-  	//$(this).closeReader(); 
-  	
   	$(document).closeReader();
-  	
-  	// well... we don't know what THIS is...
-  }   // esc
+  }
 });
 
 /* 
