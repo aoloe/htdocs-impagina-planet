@@ -24,7 +24,7 @@ $(document).ready(function() {
 $(".open-button").show();
 
 // prepare some markup
-$(document.body).append("<div id='reader' class='reader hidden'><div class='reader-inside'></div></div><div id='mask' class='mask-layer hidden close-button'></div>");
+$(document.body).append("<div id='reader' class='reader hidden'><div class='reader-inside'></div><div class='reader-bg close-button'></div></div><div id='mask' class='mask-layer hidden'></div>");
 
 
 /*  
@@ -33,8 +33,8 @@ $(document.body).append("<div id='reader' class='reader hidden'><div class='read
 
 (function( $ ){
   $.fn.closeReader = function() {
-  		  $("#reader").fadeOut(200);
-  		  $("#mask").fadeOut(200);
+  		  $("#reader").fadeOut(300);
+  		  $("#mask").fadeOut(300);
   		  return false;
   };
 })( jQuery );
@@ -50,8 +50,8 @@ $(".open-button").on("click", function() {
 	var item_height = $(this).parent().height();
 	var new_container_height = ($(window).height()) - 260;
 			    
-	$('#reader').fadeIn(100);
-	$('#mask').fadeIn(200);
+	$('#reader').fadeIn(300);
+	$('#mask').fadeIn(300);
 	
 	$('#reader .reader-inside').html(clonage);
 	
