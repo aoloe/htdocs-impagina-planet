@@ -8,38 +8,46 @@
 $feed_list = array (
     'http://gplus-to-rss.appspot.com/rss/109612024486187515483' => array (
         'label' => 'g+',
+        'css' => 'google-plus',
         'url' => 'https://plus.google.com/b/109612024486187515483/109612024486187515483/posts'
     ),
     'http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=scribus' => array (
         'label' => 'twitter',
+        'css' => 'twitter',
         'url' => 'http://twitter.com/scribus',
     ),
     'http://www.wallflux.com/info/114175708594284' => array (
         'label' => 'facebook',
+        'css' => 'facebook',
         'url' => 'http://www.facebook.com/groups/114175708594284/',
     ),
     
     'http://rants.scribus.net/feed/' => array (
         'label' => 'Scribus developer blog',
+        'css' => 'scribus-dev-blog blog',
         'url' => 'http://rants.scribus.net',
     ),
     'http://graphicslab.org/blog/?rss' => array (
         'label' => 'a.l.e\'s graphicslab',
+        'css' => 'graphicslab blog',
         'url' => 'http://graphicslab.org/blog',
         'tag' => 'scribus',
     ),
     'http://seenthis.net/people/chelen/feed' => array (
         'label' => 'Chelen\'s GSoC 2012 (Undo / UI)',
+        'css' => 'gsoc blog',
         'url' => 'http://seenthis.net/people/chelen',
         'language' => 'fr',
         'format' => 'markdown',
     ),
     'http://googlesummerofscribus.blogspot.com/feeds/posts/default?alt=rss' => array (
         'label' => 'Rajat\'s GSoC 2012 (Project manager)',
+        'css' => 'gsoc blog',
         'url' => 'http://googlesummerofscribus.blogspot.in/',
     ),
     'http://summerofscribus.blogspot.com/feeds/posts/default?alt=rss' => array (
         'label' => 'Parthasarathy \'s GSoC 2012 (New file format)',
+        'css' => 'gsoc blog',
         'url' => 'http://summerofscribus.blogspot.in/',
     ),
 );
@@ -70,27 +78,37 @@ $feed->init();
 // This makes sure that the content is sent to the browser as text/html and the UTF-8 character set (since we didn't change it).
 $feed->handle_content_type();
  
-// Let's begin our XHTML webpage code.  The DOCTYPE is supposed to be the very first thing, so we'll keep it on the same line as the closing-PHP tag.
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-        "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
- 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+// Let's begin our HTML webpage code.  The DOCTYPE is supposed to be the very first thing, so we'll keep it on the same line as the closing-PHP tag.
+?><!DOCTYPE html>
+<html>
 <head>
+  <meta charset="utf-8">
   <title>Scribus Planet</title>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="description" content="Aggregated news and feeds about the Scribus desktop publishing software">
+  <meta name="viewport" content="width=device-width">
+  <link href='//fonts.googleapis.com/css?family=Quattrocento+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/style.css">  
+  
+  <!--[if lt IE 9]>
+  <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
 </head>
 <body>
- 
-  <div class="header">
-    <h1><a href="<?php echo $feed->get_permalink(); ?>">Scribus Planet</a></h1>
-    <p>This is the Scribus Planet and it collects posts from:</p>
-    <ul>
-    <?php foreach ($feed_list as $key => $value) : ?>
-        <li><a href="<?php echo($value['url']); ?>"><?php echo($value['label']); ?></a></li>
-    <?php endforeach; ?>
-    </ul>
-  </div>
- 
+  <div class="container">
+		<header class="header">
+			<div class="inside">
+			  <h1 class="h1 header-title"><a href="<?php echo $feed->get_permalink(); ?>" class="black">Scribus Planet</a></h1>
+			  <p>This is the Scribus Planet and it collects posts from:</p>
+			  <ul class="feed-list">
+			  <?php foreach ($feed_list as $key => $value) : ?>
+			      <li class="li"><a href="<?php echo($value['url']); ?>"><?php echo($value['label']); ?></a></li>
+			  <?php endforeach; ?>
+			  </ul>
+			</div>
+		</header>
+		<section class="planet-container">
+			<div id="freetile">
+				<div class="freetile-container">
   <?php
   /*
   Here, we'll loop through all of the items in the feed, and $item represents the current item in the loop.
@@ -108,18 +126,52 @@ $feed->handle_content_type();
         }
     }
   ?>
- 
-    <div class="item">
-      <h2><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
-      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
-      <p>[ <a href="http://www.google.com/translate?u=<?php echo($item->get_permalink()); ?> &hl=en&ie=UTF8&langpair=<?php echo($translate[$feed_link]); ?>|en">Translate</a> ]</p>
-      <?php endif; ?>
+			    <article class="item <?php 
+			    		// #1:
+			    		// echo ['css'] key of the feed array
+			        // here we must find a way to retrieve the ['css'] key of the feed
+			        
+			        // #2:
+			        // test length to determine if we show the whole post:
+			        if (strlen($content)>400) {
+			          echo " long-post";
+			        }
+			    
+			     ?>">
+				    <div class="inside item-inside">
+				      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
+				      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
+				      <p>[ <a href="http://www.google.com/translate?u=<?php echo($item->get_permalink()); ?> &hl=en&ie=UTF8&langpair=<?php echo($translate[$feed_link]); ?>|en">Translate</a> ]</p>
+				      <?php endif; ?>
+				
+				      <div class="post-content"><?php echo $content;
+				      
+				      // add expansion for long content
+				      
+				      if (strlen($content)>400) {
+				        ?><div class="bottom-gradient"></div>
+				        </div>
+				        
+				        <div class="open-close open-button hidden"><a href="#" class="closed black">read more</a></div>
+				        
+				        <div class="open-close close-button hidden"><a href="#" class="closed black close-button">close</a>
+				        <?php
+				      }
+				      
+				       ?></div>
+				      <p><small class="post-date secondary">Posted on <?php echo $item->get_date('j F Y | g:i a'); ?></small></p>
+				    </div>
+			    </article>
 
-      <p><?php echo $content; ?></p>
-      <p><small>Posted on <?php echo $item->get_date('j F Y | g:i a'); ?></small></p>
-    </div>
- 
   <?php endforeach; ?>
- 
+  			</div>
+      </div>
+    </section>
+	</div>
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/libs/jquery-1.8.2.min.js"><\/script>')</script>
+	<script src="js/jquery.freetile.min.js"></script>
+	<script src="js/scripts.js"></script>
 </body>
 </html>
