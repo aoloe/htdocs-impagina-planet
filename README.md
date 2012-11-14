@@ -16,3 +16,6 @@ TODO:
 - add the original BSD license in the simplepie directory
 - remove the .svn directories in the simplepie directory
 - for specific sources, is it possible to get only the posts with specific tags? (#scribus)
+- add the posts from the commit mailing list?
+- add the threads from the mailing list? (not each mail, just the first for each thread)
+- add some links to the library and sources used (markdown, simplepie, wallflux, ...)
