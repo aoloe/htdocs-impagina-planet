@@ -114,7 +114,7 @@ $feed->handle_content_type();
   Here, we'll loop through all of the items in the feed, and $item represents the current item in the loop.
   */
   foreach ($feed->get_items() as $item):
-    if ($item->get_title() == 'Wallflux demonstration - live') { continue; }
+    if (substr($item->get_title(), 0, 8) == 'Wallflux') { continue; }
     $feed_link = $item->get_feed()->get_permalink();
     $content = $item->get_description();
     if (array_key_exists($feed_link, $format)) {
