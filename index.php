@@ -6,48 +6,55 @@
  */
 
 $feed_list = array (
-    'http://gplus-to-rss.appspot.com/rss/109612024486187515483' => array (
+    'https://plus.google.com/109612024486187515483/posts' => array (
+        'feed' => 'http://gplus-to-rss.appspot.com/rss/109612024486187515483',
         'label' => 'g+',
         'css' => 'google-plus',
         'url' => 'https://plus.google.com/b/109612024486187515483/109612024486187515483/posts'
     ),
-    'http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=scribus' => array (
+    'http://twitter.com/scribus' => array (
+        'feed' => 'http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=scribus',
         'label' => 'twitter',
         'css' => 'twitter',
         'url' => 'http://twitter.com/scribus',
     ),
-    'http://www.wallflux.com/info/114175708594284' => array (
+    'https://www.facebook.com/groups/114175708594284' => array (
+        'feed' => 'http://www.wallflux.com/info/114175708594284',
         'label' => 'facebook',
         'css' => 'facebook',
         'url' => 'http://www.facebook.com/groups/114175708594284/',
     ),
-    
-    'http://rants.scribus.net/feed/' => array (
+    'http://rants.scribus.net' => array (
+        'feed' => 'http://rants.scribus.net/feed/',
         'label' => 'Scribus developer blog',
-        'css' => 'scribus-dev-blog blog',
+        'css' => 'blog',
         'url' => 'http://rants.scribus.net',
     ),
-    'http://graphicslab.org/blog/?rss' => array (
+    'http://graphicslab.org/blog' => array (
+        'feed' => 'http://graphicslab.org/blog/?rss',
         'label' => 'a.l.e\'s graphicslab',
-        'css' => 'graphicslab blog',
+        'css' => 'blog',
         'url' => 'http://graphicslab.org/blog',
         'tag' => 'scribus',
     ),
-    'http://seenthis.net/people/chelen/feed' => array (
+    'http://seenthis.net/people/chelen' => array (
+        'feed' => 'http://seenthis.net/people/chelen/feed',
         'label' => 'Chelen\'s GSoC 2012 (Undo / UI)',
-        'css' => 'gsoc blog',
+        'css' => 'blog',
         'url' => 'http://seenthis.net/people/chelen',
         'language' => 'fr',
         'format' => 'markdown',
     ),
-    'http://googlesummerofscribus.blogspot.com/feeds/posts/default?alt=rss' => array (
+    'http://googlesummerofscribus.blogspot.in/' => array (
+        'feed' => 'http://googlesummerofscribus.blogspot.com/feeds/posts/default?alt=rss',
         'label' => 'Rajat\'s GSoC 2012 (Project manager)',
-        'css' => 'gsoc blog',
+        'css' => 'blog',
         'url' => 'http://googlesummerofscribus.blogspot.in/',
     ),
-    'http://summerofscribus.blogspot.com/feeds/posts/default?alt=rss' => array (
+    'http://summerofscribus.blogspot.in/' => array (
+        'feed' => 'http://summerofscribus.blogspot.com/feeds/posts/default?alt=rss',
         'label' => 'Parthasarathy \'s GSoC 2012 (New file format)',
-        'css' => 'gsoc blog',
+        'css' => 'blog',
         'url' => 'http://summerofscribus.blogspot.in/',
     ),
 );
@@ -70,7 +77,12 @@ $feed = new SimplePie();
 
  
 // Set which feed to process.
-$feed->set_feed_url(array_keys($feed_list));
+$list = array();
+foreach ($feed_list as $key => $value) {
+    $list[] = $value['feed'];
+}
+$feed->set_feed_url($list);
+unset($list);
  
 // Run SimplePie.
 $feed->init();
@@ -125,20 +137,25 @@ $feed->handle_content_type();
             break;
         }
     }
+    $author = '';
+    if (array_key_exists('child', $item->data) && array_key_exists('', $item->data['child'])) {
+        if (array_key_exists('author', $item->data['child'][''])) {
+            $author = $item->data['child']['']['author'][0]['data'];
+        } elseif (array_key_exists('title', $item->data['child']['']) && (substr($item->data['child']['']['title'][0]['data'], 0, 18) == 'Group wall post by')) {
+            $author = substr($item->data['child']['']['title'][0]['data'], 19);
+        } elseif (array_key_exists('description', $item->data['child'][''])) {
+            preg_match("/^(\w+) (\w+) (\w+)/", $item->data['child']['']['description'][0]['data'], $matches);
+            if (count($matches) > 2) {
+                if ($matches[3] == 'to' || $matches[3] == 'posted') {
+                    $author = $matches[1].' '.$matches[2];
+                }
+            }
+        }
+    }
   ?>
-			    <article class="item <?php 
-			    		// #1:
-			    		// echo ['css'] key of the feed array
-			        // here we must find a way to retrieve the ['css'] key of the feed
-			        
-			        // #2:
-			        // test length to determine if we show the whole post:
-			        if (strlen($content)>400) {
-			          echo " long-post";
-			        }
-			    
-			     ?>">
+			    <article class="item <?= strlen($content)>400 ? " long-post" : "" ?><?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? ' '.$feed_list[$item->get_feed()->get_link()]['css'] : '' ?>">
 				    <div class="inside item-inside">
+                    <p><?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? '' : $item->get_feed()->get_link() ?></p>
 				      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
 				      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
 				      <p>[ <a href="http://www.google.com/translate?u=<?php echo($item->get_permalink()); ?> &hl=en&ie=UTF8&langpair=<?php echo($translate[$feed_link]); ?>|en">Translate</a> ]</p>
@@ -147,7 +164,6 @@ $feed->handle_content_type();
 				      <div class="post-content"><?php echo $content;
 				      
 				      // add expansion for long content
-				      
 				      if (strlen($content)>400) {
 				        ?><div class="bottom-gradient"></div>
 				        </div>
@@ -159,7 +175,10 @@ $feed->handle_content_type();
 				      }
 				      
 				       ?></div>
-				      <p><small class="post-date secondary">Posted on <?php echo $item->get_date('j F Y | g:i a'); ?></small></p>
+                      <?php if ($author != '') : ?>
+				      <p><small class="post-date secondary">Posted by <?= $author; ?></small></p>
+                      <?php endif; ?>
+                      <p><small class="post-date secondary"><?= $author == '' ? 'Posted ' : '' ?>on <?= $item->get_date('j F Y | g:i a'); ?></small></p>
 				    </div>
 			    </article>
 
