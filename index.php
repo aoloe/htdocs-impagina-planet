@@ -153,9 +153,9 @@ $feed->handle_content_type();
         }
     }
   ?>
-			    <article class="item <?= strlen($content)>400 ? " long-post" : "" ?><?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? ' '.$feed_list[$item->get_feed()->get_link()]['css'] : '' ?>">
+			    <article class="item <?= strlen($content)>450 ? " long-post" : "" ?><?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? ' '.$feed_list[$item->get_feed()->get_link()]['css'] : '' ?>">
 				    <div class="inside item-inside">
-                    <p><?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? '' : $item->get_feed()->get_link() ?></p>
+              <?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? '' : $item->get_feed()->get_link() ?>
 				      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
 				      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
 				      <p>[ <a href="http://www.google.com/translate?u=<?php echo($item->get_permalink()); ?> &hl=en&ie=UTF8&langpair=<?php echo($translate[$feed_link]); ?>|en">Translate</a> ]</p>
@@ -164,7 +164,7 @@ $feed->handle_content_type();
 				      <div class="post-content"><?php echo $content;
 				      
 				      // add expansion for long content
-				      if (strlen($content)>400) {
+				      if (strlen($content)>450) {
 				        ?><div class="bottom-gradient"></div>
 				        </div>
 				        
@@ -175,10 +175,12 @@ $feed->handle_content_type();
 				      }
 				      
 				       ?></div>
+				       <div class="post-meta">
                       <?php if ($author != '') : ?>
-				      <p><small class="post-date secondary">Posted by <?= $author; ?></small></p>
+				      		<p><small class="post-author secondary">Posted by <?= $author; ?></small></p>
                       <?php endif; ?>
-                      <p><small class="post-date secondary"><?= $author == '' ? 'Posted ' : '' ?>on <?= $item->get_date('j F Y | g:i a'); ?></small></p>
+	              	<p><small class="post-date secondary"><?= $author == '' ? 'Posted ' : '' ?>on <?= $item->get_date('j F Y | g:i a'); ?></small></p>
+				       </div>
 				    </div>
 			    </article>
 
