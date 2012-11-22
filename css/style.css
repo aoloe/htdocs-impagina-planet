@@ -73,6 +73,10 @@ img {
 /*	font-weight: normal;*/
 }
 
+.header img {
+    width:60px;
+}
+
 .post-content {
 	line-height: 1.3em;
 	word-break: break-word;

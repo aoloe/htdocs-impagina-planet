@@ -1,10 +1,5 @@
 <?php
 
-/**
- * TODO:
- * - add tags conditions for some blogs (like graphicslab): only read the posts tagged with scribus!
- */
-
 $feed_list = array (
     'https://plus.google.com/109612024486187515483/posts' => array (
         'feed' => 'http://gplus-to-rss.appspot.com/rss/109612024486187515483',
@@ -109,6 +104,7 @@ $feed->handle_content_type();
   <div class="container">
 		<header class="header">
 			<div class="inside">
+			  <p class="header-logo"><a href="http://impagina.org"><img src="http://impagina.org/theme/Innovation/assets/images/impagina_logo.png" alt="Back to the impagina.org" title="Back to the impagina.org"></a></p>
 			  <h1 class="h1 header-title"><a href="<?php echo $feed->get_permalink(); ?>" class="black">Scribus Planet</a></h1>
 			  <p>This is the Scribus Planet and it collects posts from:</p>
 			  <ul class="feed-list">
