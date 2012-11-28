@@ -22,7 +22,7 @@ $feed_list = array (
         'css' => 'facebook',
         'url' => 'http://www.facebook.com/groups/114175708594284/',
     ),
-    'http://rants.scribus.net' => array (
+    'http://rants.scribus.net/' => array (
         'feed' => 'http://rants.scribus.net/feed/',
         'label' => 'Scribus developer blog',
         'author' => 'Scribus',
@@ -110,10 +110,34 @@ $feed->handle_content_type();
 </head>
 <body>
   <div class="container">
-		<header class="header">
+  <header>
+    <div class="header">
+      <div class="wrapper">
+        
+        <!-- logo/sitename -->
+        <a href="http://impagina.org/" id="logo" ><img src="http://impagina.org/theme/Innovation/assets/images/impagina_logo.png" /></a>
+        
+        <!-- main navigation -->
+        <nav id="main-nav">
+
+          <ul>
+            <li><a href="http://impagina.org/" title="Resources for the Scribus contributors">Home</a></li>
+<li class="current planet"><a href="http://impagina.org/planet/" title="Planet">Planet</a></li>
+<li class="usability"><a href="http://impagina.org/usability/" title="Scribus UX / UI Design">Usability</a></li>
+<li class="projects"><a href="http://impagina.org/projects/" title="Projects">Projects</a></li>
+<li class="about"><a href="http://impagina.org/about/" title="About">About</a></li>
+<li class="contact"><a href="http://impagina.org/contact/" title="Contact">Contact</a></li>
+          </ul>
+
+        </nav>
+      </div>
+    </div>
+    
+  </header> 
+
+		<div class="intro">
 			<div class="inside">
-			  <p class="header-logo"><a href="http://impagina.org"><img src="http://impagina.org/theme/Innovation/assets/images/impagina_logo.png" alt="Back to the impagina.org" title="Back to the impagina.org"></a></p>
-			  <h1 class="h1 header-title"><a href="<?php echo $feed->get_permalink(); ?>" class="black">Scribus Planet</a></h1>
+			  <h1 class="h1 intro-title"><a href="<?php echo $feed->get_permalink(); ?>" class="black">Scribus Planet</a></h1>
 			  <p>This is the Scribus Planet and it collects posts from:</p>
 			  <ul class="feed-list">
 			  <?php foreach ($feed_list as $key => $value) : ?>
@@ -122,7 +146,7 @@ $feed->handle_content_type();
 			  </ul>
               <p>Please <a href="http://impagina.org/contact/">let us know</a> if there are other feeds that should be included.</p>
 			</div>
-		</header>
+		</div>
 		<section class="planet-container">
 			<div id="freetile">
 				<div class="freetile-container">

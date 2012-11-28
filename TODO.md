@@ -1,6 +1,5 @@
 # TODO
 
-- add the impagina header (in gray?) to the planet page.
 - add tags conditions for some blogs (like graphicslab): only read the posts tagged with the "scribus" keyword
 - put the feedlist in a csv file<br>
   (data/cache + data/feed.csv ?)<br>
