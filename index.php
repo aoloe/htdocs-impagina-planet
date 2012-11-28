@@ -156,7 +156,8 @@ $feed->handle_content_type();
   */
   foreach ($feed->get_items() as $item):
     // echo("<pre>".print_r($item, 1)."</pre>");
-    if (substr($item->get_title(), 0, 8) == 'Wallflux') { continue; }
+    // if (substr($item->get_title(), 0, 8) == 'Wallflux') { continue; }
+    if (stristr($item->get_title(), 'Wallflux')) { continue; }
     $feed_link = $item->get_feed()->get_permalink();
     $content = $item->get_description();
     if (array_key_exists($feed_link, $format)) {
