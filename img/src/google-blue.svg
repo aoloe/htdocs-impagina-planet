@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 43363)  -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Calque_1"
+   x="0px"
+   y="0px"
+   width="32"
+   height="32"
+   viewBox="0 0 32 32"
+   enable-background="new 0 0 45.5 44.5"
+   xml:space="preserve"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="google-blue.svg"><metadata
+   id="metadata9"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs7" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1021"
+   inkscape:window-height="632"
+   id="namedview5"
+   showgrid="false"
+   inkscape:zoom="5.8876404"
+   inkscape:cx="33.450382"
+   inkscape:cy="22.25"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Calque_1" />
+<path
+   d="m 0.02499922,27.175151 c -0.0089997,-0.079 -0.01499953,-0.157995 -0.01899941,-0.236993 0.00499985,0.079 0.01199963,0.157995 0.01899941,0.236993 z M 7.3717696,17.660448 C 10.24668,17.746445 12.17562,14.763539 11.679635,10.998656 11.182651,7.2337739 8.4497359,4.2118683 5.5748258,4.125871 2.6989157,4.0408737 0.76997594,6.9217836 1.2659604,10.688666 c 0.4959845,3.763882 3.2298991,6.885785 6.1058092,6.971782 z M 31.999,7.9997499 V 5.3338333 C 31.999,2.399925 29.600075,0 26.666167,0 H 5.3338333 C 2.4499234,0 0.08399738,2.3199275 0.00399988,5.1848379 1.8279429,3.5798881 4.3578638,2.23893 6.9687822,2.23893 c 2.7909128,0 11.1636508,0 11.1636508,0 l -2.497922,2.111934 h -3.539889 c 2.348927,0.8999719 3.599888,3.6298865 3.599888,6.429799 0,2.351927 -1.30796,4.373864 -3.152902,5.810819 -1.800944,1.402956 -2.142933,1.990937 -2.142933,3.1849 0,1.017968 1.92994,2.749914 2.937908,3.461892 2.948908,2.078935 3.903878,4.009875 3.903878,7.231774 0,0.512984 -0.064,1.025968 -0.189994,1.529952 h 9.6167 C 29.601075,32 32,29.602075 32,26.666167 V 9.9996874 H 26.000187 V 15.9995 H 24.00025 V 9.9996874 H 18.000437 V 7.9997499 H 24.00025 V 1.9999375 h 1.999937 V 7.9997499 H 31.999 z M 5.8088185,23.934252 c 0.6759789,0 1.2949595,-0.018 1.9359395,-0.018 -0.8479735,-0.822975 -1.5209525,-1.830943 -1.5209525,-3.073904 0,-0.736977 0.2359926,-1.446955 0.5669823,-2.078935 -0.3369895,0.024 -0.6809787,0.031 -1.0349677,0.031 C 3.4318928,18.794413 1.4589544,18.042436 0,16.799475 v 2.101934 6.303803 c 1.6699478,-0.793975 3.6528858,-1.27096 5.8088185,-1.27096 z M 0.10699666,27.725134 C 0.07199775,27.554139 0.04499859,27.381144 0.02799913,27.20515 c 0.01699946,0.175994 0.04399862,0.348989 0.07899753,0.519984 z M 14.232555,29.77507 C 13.76057,27.936127 12.092622,27.026155 9.7666948,25.413206 8.9207212,25.140214 7.9897503,24.979219 6.9897816,24.96922 4.1878691,24.940221 1.5799506,26.062186 0.10699666,27.732133 0.60498109,30.161057 2.7639136,32 5.3338333,32 h 8.9507207 c 0.057,-0.347989 0.084,-0.706978 0.084,-1.075966 0.001,-0.392988 -0.047,-0.775976 -0.135996,-1.148964 z"
+   id="path3"
+   style="fill:#4179ac;fill-opacity:1"
+   inkscape:connector-curvature="0"
+   inkscape:export-filename="/Volumes/DATA/U8U/Dropbox/Development/scribus-planet/scribus-planet/img/icons/google-blue.png"
+   inkscape:export-xdpi="87.1875"
+   inkscape:export-ydpi="87.1875" />
+</svg>

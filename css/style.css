@@ -222,6 +222,7 @@ img {
 	padding-left: 45px;
 	background-image: url('../img/icons/twitter_1.png');
 	background-repeat: no-repeat;
+	background-position: 0px 0.12em;
 }
 
 .google-plus .item-title {
@@ -399,15 +400,18 @@ header nav li a {
 header nav li a:link, 
 header nav li a:visited {
 	color:#585750;
+	color:#eee;
 	text-decoration:none;
 }	
 header nav li a:hover, 
 header nav li a:focus {
 	color:#585750;
+	color:#fff;
 	text-decoration:none;
 }
 header nav li.current a {
 	color:#585750;
+	color:#fff;
 	background:#7096B6;
 	background:rgba(255,255,255,.2);
 	text-decoration:none;

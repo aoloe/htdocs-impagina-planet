@@ -1,64 +1,28 @@
 <?php
 
+/**
+ * TODO:
+ * - add tags conditions for some blogs (like graphicslab): only read the posts tagged with scribus!
+ */
+
 $feed_list = array (
-    'https://plus.google.com/109612024486187515483/posts' => array (
-        'feed' => 'http://gplus-to-rss.appspot.com/rss/109612024486187515483',
-        'label' => 'g+',
-        'author' => 'Scribus',
-        'css' => 'google-plus',
-        'url' => 'https://plus.google.com/b/109612024486187515483/109612024486187515483/posts'
-    ),
-    'http://twitter.com/scribus' => array (
-        'feed' => 'http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=scribus',
-        'label' => 'twitter',
-        'author' => 'Scribus',
-        'css' => 'twitter',
-        'url' => 'http://twitter.com/scribus',
-    ),
-    'https://www.facebook.com/groups/114175708594284' => array (
-        'feed' => 'http://www.wallflux.com/info/114175708594284',
-        'label' => 'facebook',
-        'author' => 'Scribus',
-        'css' => 'facebook',
-        'url' => 'http://www.facebook.com/groups/114175708594284/',
-    ),
-    'http://rants.scribus.net/' => array (
-        'feed' => 'http://rants.scribus.net/feed/',
-        'label' => 'Scribus developer blog',
-        'author' => 'Scribus',
+     'http://www.posttenebraslab.ch' => array (
+        'feed' => 'http://www.posttenebraslab.ch/wiki/feed.php',
+        'label' => 'Post Tenebras Lab (Geneva)',
         'css' => 'blog',
-        'url' => 'http://rants.scribus.net',
+        'url' => 'http://www.posttenebraslab.ch/',
     ),
-    'http://graphicslab.org/blog' => array (
-        'feed' => 'http://graphicslab.org/blog/?rss',
-        'label' => 'a.l.e\'s graphicslab',
-        'author' => 'a.l.e',
+    'http://www.i3detroit.com/' => array (
+        'feed' => 'http://www.i3detroit.com/feed',
+        'label' => 'i3 Detroit',
         'css' => 'blog',
-        'url' => 'http://graphicslab.org/blog',
-        'tag' => 'scribus',
+        'url' => 'http://www.i3detroit.com/',
     ),
-    'http://seenthis.net/people/chelen' => array (
-        'feed' => 'http://seenthis.net/people/chelen/feed',
-        'label' => 'Chelen\'s GSoC 2012 (Undo / UI)',
-        'author' => 'Chelen',
+    'http://earth.hackerspaces.org/' => array (
+        'feed' => 'http://earth.hackerspaces.org/atom.xml',
+        'label' => 'NYC Resistor',
         'css' => 'blog',
-        'url' => 'http://seenthis.net/people/chelen',
-        'language' => 'fr',
-        'format' => 'markdown',
-    ),
-    'http://googlesummerofscribus.blogspot.in/' => array (
-        'feed' => 'http://googlesummerofscribus.blogspot.com/feeds/posts/default?alt=rss',
-        'label' => 'Rajat\'s GSoC 2012 (Project manager)',
-        'author' => 'Rajat',
-        'css' => 'blog',
-        'url' => 'http://googlesummerofscribus.blogspot.in/',
-    ),
-    'http://summerofscribus.blogspot.in/' => array (
-        'feed' => 'http://summerofscribus.blogspot.com/feeds/posts/default?alt=rss',
-        'label' => 'Parthasarathy \'s GSoC 2012 (New file format)',
-        'author' => 'Parthasarathy',
-        'css' => 'blog',
-        'url' => 'http://summerofscribus.blogspot.in/',
+        'url' => 'http://earth.hackerspaces.org/',
     ),
 );
 
@@ -98,11 +62,11 @@ $feed->handle_content_type();
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Scribus Planet</title>
-  <meta name="description" content="Aggregated news and feeds about the Scribus desktop publishing software">
+  <title>HackerSpaces Planet</title>
+  <meta name="description" content="Aggregated news and feeds about HackerSpaces">
   <meta name="viewport" content="width=device-width">
   <link href='//fonts.googleapis.com/css?family=Quattrocento+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="css/style.css"> 
+  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/color-blue.css">  
   
   <!--[if lt IE 9]>
@@ -111,43 +75,17 @@ $feed->handle_content_type();
 </head>
 <body>
   <div class="container">
-  <header>
-    <div class="header">
-      <div class="wrapper">
-        
-        <!-- logo/sitename -->
-        <a href="http://impagina.org/" id="logo" ><img src="http://impagina.org/theme/Innovation/assets/images/impagina_logo.png" /></a>
-        
-        <!-- main navigation -->
-        <nav id="main-nav">
-
-          <ul>
-            <li><a href="http://impagina.org/" title="Resources for the Scribus contributors">Home</a></li>
-<li class="current planet"><a href="http://impagina.org/planet/" title="Planet">Planet</a></li>
-<li class="usability"><a href="http://impagina.org/usability/" title="Scribus UX / UI Design">Usability</a></li>
-<li class="projects"><a href="http://impagina.org/projects/" title="Projects">Projects</a></li>
-<li class="about"><a href="http://impagina.org/about/" title="About">About</a></li>
-<li class="contact"><a href="http://impagina.org/contact/" title="Contact">Contact</a></li>
-          </ul>
-
-        </nav>
-      </div>
-    </div>
-    
-  </header> 
-
-		<div class="intro">
+		<header class="header">
 			<div class="inside">
-			  <h1 class="h1 intro-title"><a href="<?php echo $feed->get_permalink(); ?>" class="black">Scribus Planet</a></h1>
-			  <p>This is the Scribus Planet and it collects posts from:</p>
+			  <h1 class="h1 header-title"><a href="<?php echo $feed->get_permalink(); ?>" class="black">HackerSpaces Planet</a></h1>
+			  <p>This is the HackerSpaces Planet and it collects posts from:</p>
 			  <ul class="feed-list">
 			  <?php foreach ($feed_list as $key => $value) : ?>
 			      <li class="li"><a href="<?php echo($value['url']); ?>"><?php echo($value['label']); ?></a></li>
 			  <?php endforeach; ?>
 			  </ul>
-              <p>Please <a href="http://impagina.org/contact/">let us know</a> if there are other feeds that should be included.</p>
 			</div>
-		</div>
+		</header>
 		<section class="planet-container">
 			<div id="freetile">
 				<div class="freetile-container">
@@ -156,9 +94,7 @@ $feed->handle_content_type();
   Here, we'll loop through all of the items in the feed, and $item represents the current item in the loop.
   */
   foreach ($feed->get_items() as $item):
-    // echo("<pre>".print_r($item, 1)."</pre>");
-    // if (substr($item->get_title(), 0, 8) == 'Wallflux') { continue; }
-    if (stristr($item->get_title(), 'Wallflux')) { continue; }
+    if (substr($item->get_title(), 0, 8) == 'Wallflux') { continue; }
     $feed_link = $item->get_feed()->get_permalink();
     $content = $item->get_description();
     if (array_key_exists($feed_link, $format)) {
@@ -183,9 +119,6 @@ $feed->handle_content_type();
                 }
             }
         }
-    }
-    if ($author == '') {
-        $author = $feed_list[$item->get_feed()->get_link()]['author'];
     }
   ?>
 			    <article class="item <?= strlen($content)>450 ? " long-post" : "" ?><?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? ' '.$feed_list[$item->get_feed()->get_link()]['css'] : '' ?>">
