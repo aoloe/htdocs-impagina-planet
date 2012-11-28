@@ -4,30 +4,35 @@ $feed_list = array (
     'https://plus.google.com/109612024486187515483/posts' => array (
         'feed' => 'http://gplus-to-rss.appspot.com/rss/109612024486187515483',
         'label' => 'g+',
+        'author' => 'Scribus',
         'css' => 'google-plus',
         'url' => 'https://plus.google.com/b/109612024486187515483/109612024486187515483/posts'
     ),
     'http://twitter.com/scribus' => array (
         'feed' => 'http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=scribus',
         'label' => 'twitter',
+        'author' => 'Scribus',
         'css' => 'twitter',
         'url' => 'http://twitter.com/scribus',
     ),
     'https://www.facebook.com/groups/114175708594284' => array (
         'feed' => 'http://www.wallflux.com/info/114175708594284',
         'label' => 'facebook',
+        'author' => 'Scribus',
         'css' => 'facebook',
         'url' => 'http://www.facebook.com/groups/114175708594284/',
     ),
     'http://rants.scribus.net' => array (
         'feed' => 'http://rants.scribus.net/feed/',
         'label' => 'Scribus developer blog',
+        'author' => 'Scribus',
         'css' => 'blog',
         'url' => 'http://rants.scribus.net',
     ),
     'http://graphicslab.org/blog' => array (
         'feed' => 'http://graphicslab.org/blog/?rss',
         'label' => 'a.l.e\'s graphicslab',
+        'author' => 'a.l.e',
         'css' => 'blog',
         'url' => 'http://graphicslab.org/blog',
         'tag' => 'scribus',
@@ -35,6 +40,7 @@ $feed_list = array (
     'http://seenthis.net/people/chelen' => array (
         'feed' => 'http://seenthis.net/people/chelen/feed',
         'label' => 'Chelen\'s GSoC 2012 (Undo / UI)',
+        'author' => 'Chelen',
         'css' => 'blog',
         'url' => 'http://seenthis.net/people/chelen',
         'language' => 'fr',
@@ -43,12 +49,14 @@ $feed_list = array (
     'http://googlesummerofscribus.blogspot.in/' => array (
         'feed' => 'http://googlesummerofscribus.blogspot.com/feeds/posts/default?alt=rss',
         'label' => 'Rajat\'s GSoC 2012 (Project manager)',
+        'author' => 'Rajat',
         'css' => 'blog',
         'url' => 'http://googlesummerofscribus.blogspot.in/',
     ),
     'http://summerofscribus.blogspot.in/' => array (
         'feed' => 'http://summerofscribus.blogspot.com/feeds/posts/default?alt=rss',
         'label' => 'Parthasarathy \'s GSoC 2012 (New file format)',
+        'author' => 'Parthasarathy',
         'css' => 'blog',
         'url' => 'http://summerofscribus.blogspot.in/',
     ),
@@ -112,6 +120,7 @@ $feed->handle_content_type();
 			      <li class="li"><a href="<?php echo($value['url']); ?>"><?php echo($value['label']); ?></a></li>
 			  <?php endforeach; ?>
 			  </ul>
+              <p>Please <a href="http://impagina.org/contact/">let us know</a> if there are other feeds that should be included.</p>
 			</div>
 		</header>
 		<section class="planet-container">
@@ -122,6 +131,7 @@ $feed->handle_content_type();
   Here, we'll loop through all of the items in the feed, and $item represents the current item in the loop.
   */
   foreach ($feed->get_items() as $item):
+    // echo("<pre>".print_r($item, 1)."</pre>");
     if (substr($item->get_title(), 0, 8) == 'Wallflux') { continue; }
     $feed_link = $item->get_feed()->get_permalink();
     $content = $item->get_description();
@@ -147,6 +157,9 @@ $feed->handle_content_type();
                 }
             }
         }
+    }
+    if ($author == '') {
+        $author = $feed_list[$item->get_feed()->get_link()]['author'];
     }
   ?>
 			    <article class="item <?= strlen($content)>450 ? " long-post" : "" ?><?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? ' '.$feed_list[$item->get_feed()->get_link()]['css'] : '' ?>">
