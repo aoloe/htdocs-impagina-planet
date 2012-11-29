@@ -102,7 +102,8 @@ $feed->handle_content_type();
   <meta name="description" content="Aggregated news and feeds about the Scribus desktop publishing software">
   <meta name="viewport" content="width=device-width">
   <link href='//fonts.googleapis.com/css?family=Quattrocento+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="css/style.css">  
+  <link rel="stylesheet" href="css/style.css"> 
+  <link rel="stylesheet" href="css/color-blue.css">  
   
   <!--[if lt IE 9]>
   <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>

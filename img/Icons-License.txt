@@ -1,0 +1,5 @@
+This package is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License. http://creativecommons.org/licenses/by-sa/3.0/
+
+This is a free version of IcoMoon with 315 icons. More icons will be added to this package over time. Watch this repository on github to be informed of future updates: https://github.com/Keyamoon/IcoMoon--limited-
+
+Visit IcoMoon's webpage for more information: http://icomoon.io
