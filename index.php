@@ -46,19 +46,33 @@ $feed_list = array (
         'language' => 'fr',
         'format' => 'markdown',
     ),
-    'http://googlesummerofscribus.blogspot.in/' => array (
+    'http://googlesummerofscribus.blogspot.com/' => array (
         'feed' => 'http://googlesummerofscribus.blogspot.com/feeds/posts/default?alt=rss',
         'label' => 'Rajat\'s GSoC 2012 (Project manager)',
         'author' => 'Rajat',
         'css' => 'blog',
         'url' => 'http://googlesummerofscribus.blogspot.in/',
     ),
-    'http://summerofscribus.blogspot.in/' => array (
+    'http://summerofscribus.blogspot.com/' => array (
         'feed' => 'http://summerofscribus.blogspot.com/feeds/posts/default?alt=rss',
         'label' => 'Parthasarathy \'s GSoC 2012 (New file format)',
         'author' => 'Parthasarathy',
         'css' => 'blog',
         'url' => 'http://summerofscribus.blogspot.in/',
+    ),
+    'http://blog.gmane.org/gmane.comp.graphics.scribus' => array (
+        'feed' => 'http://rss.gmane.org/topics/excerpts/gmane.comp.graphics.scribus',
+        'label' => 'Threads from the Scribus mailing list',
+        'author' => 'Scribus',
+        'css' => 'mailinglist',
+        'url' => 'http://lists.scribus.net/pipermail/scribus',
+    ),
+    'http://blog.gmane.org/gmane.comp.graphics.scribus.scm' => array (
+        'feed' => 'http://rss.gmane.org/topics/excerpts/gmane.comp.graphics.scribus.scm',
+        'label' => 'Commits to the Scribus main source code',
+        'author' => 'Scribus',
+        'css' => 'mailinglist',
+        'url' => 'http://lists.scribus.net/pipermail/scribus-commit',
     ),
 );
 
@@ -146,6 +160,7 @@ $feed->handle_content_type();
 			  <?php endforeach; ?>
 			  </ul>
               <p>Please <a href="http://impagina.org/contact/">let us know</a> if there are other feeds that should be included.</p>
+               <p>CSS &amp; Design by <a href="http://greyscalepress.com/">Manuel Schmalsteig</a>; PHP glue code by <a href="http://ideale.ch">Ale Rimoldi</a></p>
 			</div>
 		</div>
 		<section class="planet-container">
@@ -156,9 +171,9 @@ $feed->handle_content_type();
   Here, we'll loop through all of the items in the feed, and $item represents the current item in the loop.
   */
   foreach ($feed->get_items() as $item):
-    // echo("<pre>".print_r($item, 1)."</pre>");
-    // if (substr($item->get_title(), 0, 8) == 'Wallflux') { continue; }
-    if (stristr($item->get_title(), 'Wallflux')) { continue; }
+    // echo("<pre>".print_r($item, 1)."</pre>"); die();
+    // echo $item->get_feed()->get_permalink(); die();
+    if (stripos($item->get_title(), 'Wallflux') !== false) { continue; }
     $feed_link = $item->get_feed()->get_permalink();
     $content = $item->get_description();
     if (array_key_exists($feed_link, $format)) {
@@ -167,6 +182,16 @@ $feed->handle_content_type();
                 include_once('markdown.php');
                 $content = Markdown($content);
             break;
+        }
+    } elseif ($feed_list[$feed_link]['css'] == 'mailinglist') {
+        if (false !== (substr($content, 0, 5) == '<pre>')) {
+            $content = substr($content, 5);
+        }
+        if (false !== ($pos = stripos($content, '-------------- next part --------------'))) {
+            $content = substr($content, 0, $pos);
+        }
+        if (false !== ($pos = stripos($content, '___'))) {
+            $content = substr($content, 0, $pos);
         }
     }
     $author = '';
