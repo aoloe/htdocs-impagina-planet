@@ -65,6 +65,7 @@ $feed_list = array (
         'label' => 'Threads from the Scribus mailing list',
         'author' => 'Scribus',
         'css' => 'mailinglist',
+        'format' => 'markdown',
         'url' => 'http://lists.scribus.net/pipermail/scribus',
     ),
     'http://blog.gmane.org/gmane.comp.graphics.scribus.scm' => array (
@@ -72,6 +73,7 @@ $feed_list = array (
         'label' => 'Commits to the Scribus main source code',
         'author' => 'Scribus',
         'css' => 'mailinglist',
+        'format' => 'markdown',
         'url' => 'http://lists.scribus.net/pipermail/scribus-commit',
     ),
 );
@@ -176,14 +178,7 @@ $feed->handle_content_type();
     if (stripos($item->get_title(), 'Wallflux') !== false) { continue; }
     $feed_link = $item->get_feed()->get_permalink();
     $content = $item->get_description();
-    if (array_key_exists($feed_link, $format)) {
-        switch ($format[$feed_link]) {
-            case 'markdown' :
-                include_once('markdown.php');
-                $content = Markdown($content);
-            break;
-        }
-    } elseif ($feed_list[$feed_link]['css'] == 'mailinglist') {
+    if ($feed_list[$feed_link]['css'] == 'mailinglist') {
         if (false !== (substr($content, 0, 5) == '<pre>')) {
             $content = substr($content, 5);
         }
@@ -192,6 +187,14 @@ $feed->handle_content_type();
         }
         if (false !== ($pos = stripos($content, '___'))) {
             $content = substr($content, 0, $pos);
+        }
+    }
+    if (array_key_exists('format', $feed_list[$feed_link])) {
+        switch ($feed_list[$feed_link]['format']) {
+            case 'markdown' :
+                include_once('markdown.php');
+                $content = Markdown($content);
+            break;
         }
     }
     $author = '';
