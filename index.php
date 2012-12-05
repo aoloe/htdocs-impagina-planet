@@ -78,8 +78,7 @@ $feed_list = array (
     ),
 );
 
-$format = array();
-$translate = array();
+$translate = array(); // TODO: i think that this does not work (ale/20121204)
 foreach ($feed_list as $key => $value) {
     if (array_key_exists('format', $value)) {
         $format[$value['url']] = $value['format'];
@@ -89,28 +88,8 @@ foreach ($feed_list as $key => $value) {
     }
 }
 
-require_once('simplepie/autoloader.php');
- 
-// We'll process this feed with all of the default options.
-$feed = new SimplePie();
-
- 
-// Set which feed to process.
-$list = array();
-foreach ($feed_list as $key => $value) {
-    $list[] = $value['feed'];
-}
-$feed->set_feed_url($list);
-unset($list);
- 
-// Run SimplePie.
-$feed->init();
- 
-// This makes sure that the content is sent to the browser as text/html and the UTF-8 character set (since we didn't change it).
-$feed->handle_content_type();
- 
-// Let's begin our HTML webpage code.  The DOCTYPE is supposed to be the very first thing, so we'll keep it on the same line as the closing-PHP tag.
-?><!DOCTYPE html>
+$template_head = <<<EOT
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -125,8 +104,12 @@ $feed->handle_content_type();
   <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
 </head>
+EOT;
+$template_body_start = <<<EOT
 <body>
   <div class="container">
+EOT;
+$template_body_header = <<<EOT
   <header>
     <div class="header">
       <div class="wrapper">
@@ -150,8 +133,9 @@ $feed->handle_content_type();
       </div>
     </div>
     
-  </header> 
-
+  </header>
+EOT;
+$template_body_intro = <<<EOT
 		<div class="intro">
 			<div class="inside">
 			  <h1 class="h1 intro-title"><a href="<?php echo $feed->get_permalink(); ?>" class="black">Scribus Planet</a></h1>
@@ -165,14 +149,84 @@ $feed->handle_content_type();
                <p>CSS &amp; Design by <a href="http://greyscalepress.com/">Manuel Schmalsteig</a>; PHP glue code by <a href="http://ideale.ch">Ale Rimoldi</a></p>
 			</div>
 		</div>
+EOT;
+$template_body_feed_start = <<<EOT
 		<section class="planet-container">
 			<div id="freetile">
 				<div class="freetile-container">
-  <?php
-  /*
-  Here, we'll loop through all of the items in the feed, and $item represents the current item in the loop.
-  */
-  foreach ($feed->get_items() as $item):
+EOT;
+$template_body_feed_end = <<<EOT
+  			</div>
+      </div>
+    </section>
+EOT;
+$template_body_end = <<<EOT
+	</div>
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/libs/jquery-1.8.2.min.js"><\/script>')</script>
+	<script src="js/jquery.freetile.min.js"></script>
+	<script src="js/scripts.js"></script>
+</body>
+</html>
+EOT;
+$template_body_feed_item = <<<EOT
+			    <article class="item <?= strlen($content)>450 ? " long-post" : "" ?><?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? ' '.$feed_list[$item->get_feed()->get_link()]['css'] : '' ?>">
+				    <div class="inside item-inside">
+              <?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? '' : $item->get_feed()->get_link() ?>
+				      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
+				      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
+				      <p>[ <a href="http://www.google.com/translate?u=<?php echo($item->get_permalink()); ?> &hl=en&ie=UTF8&langpair=<?php echo($translate[$feed_link]); ?>|en">Translate</a> ]</p>
+				      <?php endif; ?>
+				
+				      <div class="post-content"><?php echo $content;
+				      
+				      // add expansion for long content
+				      if (strlen($content)>450) {
+				        ?><div class="bottom-gradient"></div>
+				        </div>
+				        
+				        <div class="open-close open-button hidden"><a href="#" class="closed black">read more</a></div>
+				        
+				        <div class="open-close close-button hidden"><a href="#" class="closed black close-button">close</a>
+				        <?php
+				      }
+				      
+				       ?></div>
+				       <div class="post-meta">
+                      <?php if ($author != '') : ?>
+				      		<p><small class="post-author secondary">Posted by <?= $author; ?></small></p>
+                      <?php endif; ?>
+	              	<p><small class="post-date secondary"><?= $author == '' ? 'Posted ' : '' ?>on <?= $item->get_date('j F Y | g:i a'); ?></small></p>
+				       </div>
+				    </div>
+			    </article>
+EOT;
+
+require_once('simplepie/autoloader.php');
+ 
+// We'll process this feed with all of the default options.
+$feed = new SimplePie();
+
+ 
+// Set which feed to process.
+$list = array();
+foreach ($feed_list as $key => $value) {
+    $list[] = $value['feed'];
+}
+$feed->set_feed_url($list);
+unset($list);
+ 
+// Run SimplePie.
+$feed->init();
+ 
+// This makes sure that the content is sent to the browser as text/html and the UTF-8 character set (since we didn't change it).
+$feed->handle_content_type();
+
+
+
+
+foreach ($feed->get_items() as $item):
     // echo("<pre>".print_r($item, 1)."</pre>"); die();
     // echo $item->get_feed()->get_permalink(); die();
     if (stripos($item->get_title(), 'Wallflux') !== false) { continue; }
@@ -216,46 +270,5 @@ $feed->handle_content_type();
         $author = $feed_list[$item->get_feed()->get_link()]['author'];
     }
   ?>
-			    <article class="item <?= strlen($content)>450 ? " long-post" : "" ?><?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? ' '.$feed_list[$item->get_feed()->get_link()]['css'] : '' ?>">
-				    <div class="inside item-inside">
-              <?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? '' : $item->get_feed()->get_link() ?>
-				      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
-				      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
-				      <p>[ <a href="http://www.google.com/translate?u=<?php echo($item->get_permalink()); ?> &hl=en&ie=UTF8&langpair=<?php echo($translate[$feed_link]); ?>|en">Translate</a> ]</p>
-				      <?php endif; ?>
-				
-				      <div class="post-content"><?php echo $content;
-				      
-				      // add expansion for long content
-				      if (strlen($content)>450) {
-				        ?><div class="bottom-gradient"></div>
-				        </div>
-				        
-				        <div class="open-close open-button hidden"><a href="#" class="closed black">read more</a></div>
-				        
-				        <div class="open-close close-button hidden"><a href="#" class="closed black close-button">close</a>
-				        <?php
-				      }
-				      
-				       ?></div>
-				       <div class="post-meta">
-                      <?php if ($author != '') : ?>
-				      		<p><small class="post-author secondary">Posted by <?= $author; ?></small></p>
-                      <?php endif; ?>
-	              	<p><small class="post-date secondary"><?= $author == '' ? 'Posted ' : '' ?>on <?= $item->get_date('j F Y | g:i a'); ?></small></p>
-				       </div>
-				    </div>
-			    </article>
 
   <?php endforeach; ?>
-  			</div>
-      </div>
-    </section>
-	</div>
-	
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="js/libs/jquery-1.8.2.min.js"><\/script>')</script>
-	<script src="js/jquery.freetile.min.js"></script>
-	<script src="js/scripts.js"></script>
-</body>
-</html>
