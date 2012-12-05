@@ -1,6 +1,6 @@
 <?php
 
-$feed_list = array (
+$feed_source = array (
     'https://plus.google.com/109612024486187515483/posts' => array (
         'feed' => 'http://gplus-to-rss.appspot.com/rss/109612024486187515483',
         'label' => 'g+',
@@ -65,7 +65,7 @@ $feed_list = array (
         'label' => 'Threads from the Scribus mailing list',
         'author' => 'Scribus',
         'css' => 'mailinglist',
-        'format' => 'markdown',
+        'format' => 'text',
         'url' => 'http://lists.scribus.net/pipermail/scribus',
     ),
     'http://blog.gmane.org/gmane.comp.graphics.scribus.scm' => array (
@@ -73,13 +73,13 @@ $feed_list = array (
         'label' => 'Commits to the Scribus main source code',
         'author' => 'Scribus',
         'css' => 'mailinglist',
-        'format' => 'markdown',
+        'format' => 'text',
         'url' => 'http://lists.scribus.net/pipermail/scribus-commit',
     ),
 );
 
 $translate = array(); // TODO: i think that this does not work (ale/20121204)
-foreach ($feed_list as $key => $value) {
+foreach ($feed_source as $key => $value) {
     if (array_key_exists('format', $value)) {
         $format[$value['url']] = $value['format'];
     }
@@ -138,12 +138,10 @@ EOT;
 $template_body_intro = <<<EOT
 		<div class="intro">
 			<div class="inside">
-			  <h1 class="h1 intro-title"><a href="<?php echo $feed->get_permalink(); ?>" class="black">Scribus Planet</a></h1>
+			  <h1 class="h1 intro-title"><a href="{{href}}" class="black">Scribus Planet</a></h1>
 			  <p>This is the Scribus Planet and it collects posts from:</p>
 			  <ul class="feed-list">
-			  <?php foreach ($feed_list as $key => $value) : ?>
-			      <li class="li"><a href="<?php echo($value['url']); ?>"><?php echo($value['label']); ?></a></li>
-			  <?php endforeach; ?>
+              {{foreach::list::<li class="li"><a href="{{url}}">{{label}}</a></li>::endforeach}}
 			  </ul>
               <p>Please <a href="http://impagina.org/contact/">let us know</a> if there are other feeds that should be included.</p>
                <p>CSS &amp; Design by <a href="http://greyscalepress.com/">Manuel Schmalsteig</a>; PHP glue code by <a href="http://ideale.ch">Ale Rimoldi</a></p>
@@ -171,33 +169,25 @@ $template_body_end = <<<EOT
 </html>
 EOT;
 $template_body_feed_item = <<<EOT
-			    <article class="item <?= strlen($content)>450 ? " long-post" : "" ?><?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? ' '.$feed_list[$item->get_feed()->get_link()]['css'] : '' ?>">
+			    <article class="item {{css_article_class}}">
 				    <div class="inside item-inside">
-              <?= array_key_exists($item->get_feed()->get_link(), $feed_list) ? '' : $item->get_feed()->get_link() ?>
-				      <h2 class="h2 item-title"><a href="<?php echo $item->get_permalink(); ?>"><?php echo $item->get_title(); ?></a></h2>
-				      <?php if (array_key_exists($feed_link, $translate)) : // TODO: add support for lang in item ?>
-				      <p>[ <a href="http://www.google.com/translate?u=<?php echo($item->get_permalink()); ?> &hl=en&ie=UTF8&langpair=<?php echo($translate[$feed_link]); ?>|en">Translate</a> ]</p>
-				      <?php endif; ?>
+                    <!-- removed item->get_feed()->get_link() -->
+				      <h2 class="h2 item-title"><a href="{{href}}">{{title}}</a></h2>
+				      {{if::translate!::<p>[ <a href="http://www.google.com/translate?u={{item_href}}&hl=en&ie=UTF8&langpair={{item_translate}}|en">Translate</a> ]</p>::endif}}
 				
-				      <div class="post-content"><?php echo $content;
+				      <div class="post-content">{{content}}
 				      
-				      // add expansion for long content
-				      if (strlen($content)>450) {
-				        ?><div class="bottom-gradient"></div>
+                      {{if::content_long=1::
+				        <div class="bottom-gradient"></div>
 				        </div>
 				        
 				        <div class="open-close open-button hidden"><a href="#" class="closed black">read more</a></div>
-				        
 				        <div class="open-close close-button hidden"><a href="#" class="closed black close-button">close</a>
-				        <?php
-				      }
-				      
-				       ?></div>
+                      ::endif}}
+				       </div>
 				       <div class="post-meta">
-                      <?php if ($author != '') : ?>
-				      		<p><small class="post-author secondary">Posted by <?= $author; ?></small></p>
-                      <?php endif; ?>
-	              	<p><small class="post-date secondary"><?= $author == '' ? 'Posted ' : '' ?>on <?= $item->get_date('j F Y | g:i a'); ?></small></p>
+                       <p><small class="post-author secondary">Posted by {{author}}</small></p>
+	              	<p><small class="post-date secondary">on {{date}}</small></p>
 				       </div>
 				    </div>
 			    </article>
@@ -211,8 +201,14 @@ $feed = new SimplePie();
  
 // Set which feed to process.
 $list = array();
-foreach ($feed_list as $key => $value) {
+$template_feeld_list_values = array();
+foreach ($feed_source as $key => $value) {
     $list[] = $value['feed'];
+
+    $template_feeld_list_values[] = array (
+        'url' => $value['url'],
+        'label' => $value['label'],
+    );
 }
 $feed->set_feed_url($list);
 unset($list);
@@ -224,51 +220,158 @@ $feed->init();
 $feed->handle_content_type();
 
 
-
-
-foreach ($feed->get_items() as $item):
+$template_body_intro_values = array (
+    'href' => $feed->get_permalink(),
+    'list' => $template_feeld_list_values,
+);
+$template_body_feed_item_values = array();
+foreach ($feed->get_items() as $item) {
     // echo("<pre>".print_r($item, 1)."</pre>"); die();
     // echo $item->get_feed()->get_permalink(); die();
+    //
+    $template_item = array(
+        'id' => '',
+        'content' => '',
+        'content_long' => false,
+        'author' => '',
+        'translate' => '',
+        'date' => '',
+        'css_article_class' => '',
+    );
+
     if (stripos($item->get_title(), 'Wallflux') !== false) { continue; }
-    $feed_link = $item->get_feed()->get_permalink();
-    $content = $item->get_description();
-    if ($feed_list[$feed_link]['css'] == 'mailinglist') {
-        if (false !== (substr($content, 0, 5) == '<pre>')) {
-            $content = substr($content, 5);
+
+    $feed_link = $item->get_feed()->get_permalink(); // the permaling of the item's feed is the only way to find out to what source belongs the specific item and, then, access the settings defined above
+
+    $template_item['href'] = $item->get_permalink();
+    $template_item['title'] = $item->get_title();
+
+    $template_item['content'] = $item->get_description();
+    if ($feed_source[$feed_link]['css'] == 'mailinglist') {
+        if (false !== (substr($template_item['content'], 0, 5) == '<pre>')) {
+            $template_item['content'] = substr($template_item['content'], 5);
         }
-        if (false !== ($pos = stripos($content, '-------------- next part --------------'))) {
-            $content = substr($content, 0, $pos);
+        if (false !== ($pos = stripos($template_item['content'], '-------------- next part --------------'))) {
+            $template_item['content'] = substr($template_item['content'], 0, $pos);
         }
-        if (false !== ($pos = stripos($content, '___'))) {
-            $content = substr($content, 0, $pos);
+        if (false !== ($pos = stripos($template_item['content'], '___'))) {
+            $template_item['content'] = substr($template_item['content'], 0, $pos);
         }
     }
-    if (array_key_exists('format', $feed_list[$feed_link])) {
-        switch ($feed_list[$feed_link]['format']) {
+    if (array_key_exists('format', $feed_source[$feed_link])) {
+        switch ($feed_source[$feed_link]['format']) {
             case 'markdown' :
                 include_once('markdown.php');
-                $content = Markdown($content);
+                $template_item['content'] = Markdown($template_item['content']);
+            break;
+            case 'text' :
+                $template_item['content'] = "<p>".preg_replace("/(<br \/>){2,}/", "</p>\n<p>", strtr($template_item['content'], array("\n" => "<br />")))."</p>";
             break;
         }
     }
-    $author = '';
+
+    if (strlen($template_item['content']) > 450 ?  : '') {
+        $template_item['css_article_class'] .= ' long-post';
+        $template_item['content_long'] = true;
+    }
+    if (array_key_exists($item->get_feed()->get_link(), $feed_source)) {
+        $template_item['css_article_class'] .= ' '.$feed_source[$item->get_feed()->get_link()]['css'];
+    }
+
     if (array_key_exists('child', $item->data) && array_key_exists('', $item->data['child'])) {
         if (array_key_exists('author', $item->data['child'][''])) {
-            $author = $item->data['child']['']['author'][0]['data'];
+            $template_item['author'] = $item->data['child']['']['author'][0]['data'];
         } elseif (array_key_exists('title', $item->data['child']['']) && (substr($item->data['child']['']['title'][0]['data'], 0, 18) == 'Group wall post by')) {
-            $author = substr($item->data['child']['']['title'][0]['data'], 19);
+            $template_item['author'] = substr($item->data['child']['']['title'][0]['data'], 19);
         } elseif (array_key_exists('description', $item->data['child'][''])) {
             preg_match("/^(\w+) (\w+) (\w+)/", $item->data['child']['']['description'][0]['data'], $matches);
             if (count($matches) > 2) {
                 if ($matches[3] == 'to' || $matches[3] == 'posted') {
-                    $author = $matches[1].' '.$matches[2];
+                    $template_item['author'] = $matches[1].' '.$matches[2];
                 }
             }
         }
     }
-    if ($author == '') {
-        $author = $feed_list[$item->get_feed()->get_link()]['author'];
+    if ($template_item['author'] == '') {
+        $template_item['author'] = $feed_source[$item->get_feed()->get_link()]['author'];
+        $author = $feed_source[$item->get_feed()->get_link()]['author'];
     }
-  ?>
 
-  <?php endforeach; ?>
+    $template_item['date'] = $item->get_date('j F Y | g:i a');
+
+    $template_item['translate'] = ''; // 'fr'
+
+    $template_body_feed_item_values[] = $template_item;
+} // foreach $feeld->get_items()
+
+echo($template_head);
+echo($template_body_start);
+echo($template_body_header);
+echo(template($template_body_intro, $template_body_intro_values));
+foreach ($template_body_feed_item_values as $value) {
+    echo(template($template_body_feed_item, $value));
+}
+echo($template_body_end);
+
+// a very simple template engine, with if and foreach
+function template($template, $parameter = null) {
+    $result = '';
+    $pattern = '/\{{(foreach|if)::(.*?)::(.*?)::(endforeach|endif)}}/s';
+    $result = preg_replace_callback(
+        $pattern,
+        function ($match)  use ($parameter) {
+            // echo("<pre>".print_r($match,1)."</pre>");
+            $result = '';
+            if ($match[1] == 'foreach') {
+                foreach ($parameter[$match[2]] as $item) {
+                    foreach ($item as $key => $value) {
+                        unset($item[$key]);
+                        $item['{{'.$key.'}}'] = $value;
+                    }
+                    $result .= strtr($match[3], $item);
+                    // $result .= preg_replace('/{{*.?}}/', array_keys($value[$match[2]]), array_values($value[$match[2]]));
+                }
+            } elseif ($match[1] == 'if') {
+                // allowed operators: = ! < > none
+                // echo("<pre>".print_r($match,1)."</pre>");
+                // echo("<pre>".print_r($match[2],1)."</pre>");
+                preg_match("/(.+?)([=!<>])(.*?)/", $match[2], $match_if);
+                // echo("<pre>".print_r($match_if,1)."</pre>");
+                $ok_if = false;
+                switch ($match_if[2]) {
+                    case "=";
+                        $ok_if = ($parameter[$match_if[1]] == $match_if[3]);
+                    break;
+                    case "!";
+                        $ok_if = ($parameter[$match_if[1]] != $match_if[3]);
+                    break;
+                    case "<";
+                        $ok_if = ($parameter[$match_if[1]] < $match_if[3]);
+                    break;
+                    case ">";
+                        $ok_if = ($parameter[$match_if[1]] > $match_if[3]);
+                    break;
+                }
+                if ($ok_if) {
+                    $result = $match[3];
+                }
+                
+            }
+            return $result;
+        },
+        $template
+    );
+    foreach ($parameter as $key => $value) {
+        if (is_array($value)) {
+            unset($parameter[$key]);
+        } else {
+            unset($parameter[$key]);
+            $parameter['{{'.$key.'}}'] = $value;
+        } 
+    }
+    $result = strtr($result, $parameter);
+    // $result = preg_replace('/{{*.?}}/', );
+    return $result;
+} // template
+
+?>
