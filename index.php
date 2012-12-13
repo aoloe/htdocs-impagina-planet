@@ -143,6 +143,12 @@ $template_body_intro = <<<EOT
 			  <ul class="feed-list">
               {{foreach::list::<li class="li"><a href="{{url}}">{{label}}</a></li>::endforeach}}
 			  </ul>
+              <h2>Other communities</h2>
+              <ul>
+                <li><a href="https://groups.google.com/forum/?hl=de#!forum/scribus-deutsch">Scribus Google Community</a></li>
+                <li><a href="https://scribus-forum.de/">Deutsches Scribus Forum</a></li>
+                <li><a href="https://groups.google.com/forum/?hl=de#!forum/scribus-deutsch">Deutsche Scribus Google Gruppe</a></li>
+              </ul>
               <p>Please <a href="http://impagina.org/contact/">let us know</a> if there are other feeds that should be included.</p>
                <p>CSS &amp; Design by <a href="http://greyscalepress.com/">Manuel Schmalsteig</a>; PHP glue code by <a href="http://ideale.ch">Ale Rimoldi</a></p>
 			</div>
