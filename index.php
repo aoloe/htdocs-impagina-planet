@@ -1,4 +1,17 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+function debug($label, $value = null) {
+    echo("<pre>");
+    if (isset($value)) echo($label.":\n");
+    else $value = $label;
+    if (is_null($value)) echo('&lt;null&gt;');
+    elseif ($value === true) echo('&lt;true&gt;');
+    elseif ($value === false) echo('&lt;false&gt;');
+    else echo(htmlspecialchars(print_r($value, 1)));
+    echo("</pre>\n");
+}
 
 $feed_source = array (
     'https://plus.google.com/109612024486187515483/posts' => array (
@@ -72,21 +85,29 @@ $feed_source = array (
         'feed' => 'http://rss.gmane.org/topics/excerpts/gmane.comp.graphics.scribus.scm',
         'label' => 'Commits to the Scribus main source code',
         'author' => 'Scribus',
-        'css' => 'mailinglist',
+        'css' => 'source-code',
         'format' => 'text',
         'url' => 'http://lists.scribus.net/pipermail/scribus-commit',
     ),
+    'http://www.linuxgraphic.org/forums/index.php' => array (
+        'feed' => 'http://www.linuxgraphic.org/forums/feed.php?f=20',
+        'label' => 'Forum de Linuxgraphics sur Scribus',
+        'author' => 'Linuxgraphics',
+        'css' => 'forum',
+        'url' => 'http://www.linuxgraphic.org/forums/viewforum.php?f=20',
+        'language' => 'fr',
+        'format' => 'markdown',
+    ),
+    'http://scribus-forum.de/node/3/feed' => array (
+        'feed' => 'http://scribus-forum.de/node/3/feed',
+        'label' => 'Scribus Forum: Die deutschsprachige Scribus Community',
+        'author' => 'ScribusForum-de',
+        'css' => 'forum',
+        'url' => 'http://scribus-forum.de/group/scribus-rund-um-das-dtp-programm',
+        'language' => 'de',
+        'format' => 'markdown',
+    ),
 );
-
-$translate = array(); // TODO: i think that this does not work (ale/20121204)
-foreach ($feed_source as $key => $value) {
-    if (array_key_exists('format', $value)) {
-        $format[$value['url']] = $value['format'];
-    }
-    if (array_key_exists('language', $value)) {
-        $translate[$value['url']] = $value['language'];
-    }
-}
 
 $template_head = <<<EOT
 <!DOCTYPE html>
@@ -169,22 +190,19 @@ $template_body_end = <<<EOT
 </html>
 EOT;
 $template_body_feed_item = <<<EOT
-			    <article class="item {{css_article_class}}">
+			    <article id="planet-item-{{id}}" class="item {{css_article_class}}">
 				    <div class="inside item-inside">
-                    <!-- removed item->get_feed()->get_link() -->
 				      <h2 class="h2 item-title"><a href="{{href}}">{{title}}</a></h2>
-				      {{if::translate!::<p>[ <a href="http://www.google.com/translate?u={{item_href}}&hl=en&ie=UTF8&langpair={{item_translate}}|en">Translate</a> ]</p>::endif}}
+				      {{if::translate!::<p>[ <a href="http://www.google.com/translate?u={{href}}&hl=en&ie=UTF8&langpair={{translate}}|en">Translate</a> ]</p>::endif}}
 				
 				      <div class="post-content">{{content}}
 				      
                       {{if::content_long=1::
 				        <div class="bottom-gradient"></div>
-				        </div>
-				        
-				        <div class="open-close open-button hidden"><a href="#" class="closed black">read more</a></div>
-				        <div class="open-close close-button hidden"><a href="#" class="closed black close-button">close</a>
                       ::endif}}
 				       </div>
+				       <div class="open-close open-button hidden"><a href="#" class="closed black">read more</a></div>
+				       <div class="open-close close-button hidden"><a href="#" class="closed black close-button">close</a></div>
 				       <div class="post-meta">
                        <p><small class="post-author secondary">Posted by {{author}}</small></p>
 	              	<p><small class="post-date secondary">on {{date}}</small></p>
@@ -219,16 +237,23 @@ $feed->init();
 // This makes sure that the content is sent to the browser as text/html and the UTF-8 character set (since we didn't change it).
 $feed->handle_content_type();
 
+if ($feed->error())
+{
+    debug('error', $feed->error());
+}
 
 $template_body_intro_values = array (
     'href' => $feed->get_permalink(),
     'list' => $template_feeld_list_values,
 );
 $template_body_feed_item_values = array();
+$id = 0;
 foreach ($feed->get_items() as $item) {
-    // echo("<pre>".print_r($item, 1)."</pre>"); die();
-    // echo $item->get_feed()->get_permalink(); die();
-    //
+    // debug('item', $item);
+    // debug('item permalink', $item->get_permalink());
+    // debug('feed permalink', $item->get_feed()->get_permalink());
+    if (stripos($item->get_title(), 'Wallflux') !== false) { continue; }
+
     $template_item = array(
         'id' => '',
         'content' => '',
@@ -239,15 +264,86 @@ foreach ($feed->get_items() as $item) {
         'css_article_class' => '',
     );
 
-    if (stripos($item->get_title(), 'Wallflux') !== false) { continue; }
+    $feed_link = $item->get_feed()->get_permalink(); // the permalink of the item's feed is the only way to find out to what source belongs the specific item and, then, access the settings defined above
 
-    $feed_link = $item->get_feed()->get_permalink(); // the permaling of the item's feed is the only way to find out to what source belongs the specific item and, then, access the settings defined above
+    if (!array_key_exists($feed_link, $feed_source)) {
+        debug('feed not correctly registered: fix the key', $feed_link);
+        continue;
+    }
+
+    if ($feed_source[$feed_link]['label'] == 'Forum de Linuxgraphics sur Scribus') {
+        // debug('item permalink', $item->get_title());
+        if (substr(strtr($item->get_title(), '• ', ''), 0, 18) == "Scribus &bull; Re:")
+        {
+            continue;
+        }
+    }
+
 
     $template_item['href'] = $item->get_permalink();
     $template_item['title'] = $item->get_title();
 
     $template_item['content'] = $item->get_description();
-    if ($feed_source[$feed_link]['css'] == 'mailinglist') {
+
+    if ($feed_link == 'http://blog.gmane.org/gmane.comp.graphics.scribus.scm') {
+        $content = explode("\n", substr($template_item['content'], 5));
+        $template_item['content'] = '';
+        // debug('content', $content);
+        $n = count($content);
+        $i = 0;
+        $step = 0;
+        while ($i < $n) {
+            // debug($content[$i]);
+            $line = $content[$i];
+            switch ($step) {
+                case 0 :
+                    if (substr($line, 0, 7) == 'Author:') {
+                        $template_item['author'] = substr($line, 8);
+                        $template_item['content'] .= $template_item['author'].":\n";
+                        $step++;
+                    }
+                case 1 :
+                    if (substr($line, 0, 4) == 'URL:') {
+                        // $template_item['href'] = substr($line, 5);
+                        $step++;
+                    }
+                break;
+                case 2 :
+                    if (substr($line, 0, 4) == 'Log:') {
+                        $step++;
+                    }
+                break;
+                case 3 :
+                    if ($line != '') {
+                        $template_item['content'] .= $line;
+                    } else {
+                        $step++;
+                    }
+                break;
+                case 4 :
+                    if (substr($line, 0, 9) == 'Modified:') {
+                        $template_item['content'] .= "\nModified\n";
+                        $step++;
+                    }
+                break;
+                case 5 :
+                    if ($line != '') {
+                        $template_item['content'] .= $line;
+                    } else {
+                        $step++;
+                    }
+                break;
+            }
+            $i++;
+        }
+    } elseif ($feed_link =='http://scribus-forum.de/node/3/feed') {
+        // debug('content', $template_item['content']);
+        $template_item['content'] = str_replace("<div><ul><li><a href=\"http://scribus-forum.de/group/scribus-rund-um-das-dtp-programm\">Scribus - rund um das DTP-Programm</a></li>\n</ul></div>", "", $template_item['content']);
+        $template_item['content'] = str_replace("</p></p>", "<p>", $template_item['content']);
+        $template_item['content'] = str_replace("</p>", "</p>", $template_item['content']);
+    }
+
+    if (in_array($feed_source[$feed_link]['css'], array('mailinglist', 'source-code'))) {
         if (false !== (substr($template_item['content'], 0, 5) == '<pre>')) {
             $template_item['content'] = substr($template_item['content'], 5);
         }
@@ -270,7 +366,7 @@ foreach ($feed->get_items() as $item) {
         }
     }
 
-    if (strlen($template_item['content']) > 450 ?  : '') {
+    if (strlen($template_item['content']) > 450) {
         $template_item['css_article_class'] .= ' long-post';
         $template_item['content_long'] = true;
     }
@@ -278,16 +374,18 @@ foreach ($feed->get_items() as $item) {
         $template_item['css_article_class'] .= ' '.$feed_source[$item->get_feed()->get_link()]['css'];
     }
 
-    if (array_key_exists('child', $item->data) && array_key_exists('', $item->data['child'])) {
-        if (array_key_exists('author', $item->data['child'][''])) {
-            $template_item['author'] = $item->data['child']['']['author'][0]['data'];
-        } elseif (array_key_exists('title', $item->data['child']['']) && (substr($item->data['child']['']['title'][0]['data'], 0, 18) == 'Group wall post by')) {
-            $template_item['author'] = substr($item->data['child']['']['title'][0]['data'], 19);
-        } elseif (array_key_exists('description', $item->data['child'][''])) {
-            preg_match("/^(\w+) (\w+) (\w+)/", $item->data['child']['']['description'][0]['data'], $matches);
-            if (count($matches) > 2) {
-                if ($matches[3] == 'to' || $matches[3] == 'posted') {
-                    $template_item['author'] = $matches[1].' '.$matches[2];
+    if ($template_item['author'] == '') {
+        if (array_key_exists('child', $item->data) && array_key_exists('', $item->data['child'])) {
+            if (array_key_exists('author', $item->data['child'][''])) {
+                $template_item['author'] = $item->data['child']['']['author'][0]['data'];
+            } elseif (array_key_exists('title', $item->data['child']['']) && (substr($item->data['child']['']['title'][0]['data'], 0, 18) == 'Group wall post by')) {
+                $template_item['author'] = substr($item->data['child']['']['title'][0]['data'], 19);
+            } elseif (array_key_exists('description', $item->data['child'][''])) {
+                preg_match("/^(\w+) (\w+) (\w+)/", $item->data['child']['']['description'][0]['data'], $matches);
+                if (count($matches) > 2) {
+                    if ($matches[3] == 'to' || $matches[3] == 'posted') {
+                        $template_item['author'] = $matches[1].' '.$matches[2];
+                    }
                 }
             }
         }
@@ -300,6 +398,11 @@ foreach ($feed->get_items() as $item) {
     $template_item['date'] = $item->get_date('j F Y | g:i a');
 
     $template_item['translate'] = ''; // 'fr'
+    if (array_key_exists('language', $feed_source[$item->get_feed()->get_link()])) {
+        $template_item['translate'] = $feed_source[$item->get_feed()->get_link()]['language'];
+    }
+
+    $template_item['id'] = ++$id;
 
     $template_body_feed_item_values[] = $template_item;
 } // foreach $feeld->get_items()
@@ -308,6 +411,7 @@ echo($template_head);
 echo($template_body_start);
 echo($template_body_header);
 echo(template($template_body_intro, $template_body_intro_values));
+// TODO: use a while to output each item after it has been read...
 foreach ($template_body_feed_item_values as $value) {
     echo(template($template_body_feed_item, $value));
 }
@@ -317,10 +421,10 @@ echo($template_body_end);
 function template($template, $parameter = null) {
     $result = '';
     $pattern = '/\{{(foreach|if)::(.*?)::(.*?)::(endforeach|endif)}}/s';
+    // debug('parameter', $parameter);
     $result = preg_replace_callback(
         $pattern,
         function ($match)  use ($parameter) {
-            // echo("<pre>".print_r($match,1)."</pre>");
             $result = '';
             if ($match[1] == 'foreach') {
                 foreach ($parameter[$match[2]] as $item) {
@@ -333,28 +437,29 @@ function template($template, $parameter = null) {
                 }
             } elseif ($match[1] == 'if') {
                 // allowed operators: = ! < > none
-                // echo("<pre>".print_r($match,1)."</pre>");
-                // echo("<pre>".print_r($match[2],1)."</pre>");
-                preg_match("/(.+?)([=!<>])(.*?)/", $match[2], $match_if);
-                // echo("<pre>".print_r($match_if,1)."</pre>");
+                // debug('match', $match);
+                preg_match("/(.+?)([=!<>])(.*)/", $match[2], $match_if);
+                // debug('match_if', $match_if);
                 $ok_if = false;
                 switch ($match_if[2]) {
-                    case "=";
+                    case "=":
                         $ok_if = ($parameter[$match_if[1]] == $match_if[3]);
                     break;
-                    case "!";
+                    case "!":
                         $ok_if = ($parameter[$match_if[1]] != $match_if[3]);
                     break;
-                    case "<";
+                    case "<":
                         $ok_if = ($parameter[$match_if[1]] < $match_if[3]);
                     break;
-                    case ">";
+                    case ">":
                         $ok_if = ($parameter[$match_if[1]] > $match_if[3]);
                     break;
                 }
+                // debug('ok_if', $ok_if);
                 if ($ok_if) {
                     $result = $match[3];
                 }
+                // debug('result', $result);
                 
             }
             return $result;

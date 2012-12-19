@@ -65,6 +65,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 	background-image: url('../img/icons/google-blue.png');
 }
 
+.mailinglist .item-title {
+	background-image: url('../img/icons/mailinglist-blue.png');
+}
+
+.forum .item-title {
+	background-image: url('../img/icons/forum-blue.png');
+}
+
+.source-code .item-title {
+	background-image: url('../img/icons/code-blue.png');
+}
+
 .open-button {
   background-image: url('../img/icons/expand-blue.png');
 }

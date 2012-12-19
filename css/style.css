@@ -214,12 +214,16 @@ img {
 
 .twitter .item-title,
 .facebook .item-title,
-.google-plus .item-title
+.google-plus .item-title,
+.source-code .item-title,
+.mailinglist .item-title,
+.forum .item-title
  {
 	padding-left: 45px;
 	background-image: url('../img/icons/twitter_1.png');
 	background-repeat: no-repeat;
 	background-position: 0px 0.12em;
+    min-height: 2em;
 }
 
 .google-plus .item-title {
@@ -228,6 +232,17 @@ img {
 
 .facebook .item-title {
 	background-image: url('../img/icons/facebook-32px.png');
+}
+
+.mailinglist .item-title {
+	background-image: url('../img/icons/mailinglist.png');
+}
+
+.forum .item-title {
+	background-image: url('../img/icons/forum.png');
+}
+.source-code .item-title {
+	background-image: url('../img/icons/code.png');
 }
 
 /* @end */
