@@ -239,7 +239,7 @@ $feed->handle_content_type();
 
 if ($feed->error())
 {
-    debug('error', $feed->error());
+    // debug('error', $feed->error());
 }
 
 $template_body_intro_values = array (
