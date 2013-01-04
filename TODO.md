@@ -1,5 +1,6 @@
 # TODO
 
+- add a filter for email (\n\n -> </p><p> + \n -> br)
 - add tags conditions for some blogs (like graphicslab): only read the posts tagged with the "scribus" keyword
 - put the feedlist in a csv file<br>
   (data/cache + data/feed.csv ?)<br>
