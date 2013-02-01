@@ -89,7 +89,7 @@ $(document).keyup(function(e) {
 });
 
 /*  
- 6. What happens when we click on the LEFT or RIGHT arrow keys
+ 6. What happens when we click on the LEFT arrow key
 */
 
 $(document).keydown(function(e){
@@ -105,7 +105,7 @@ $(document).keydown(function(e){
 });
 
 /*  
- 7. What happens when we click on the LEFT or RIGHT arrow keys
+ 7. What happens when we click on the RIGHT arrow key
 */
 
 $(document).keydown(function(e){
