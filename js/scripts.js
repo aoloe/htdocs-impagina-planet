@@ -1,24 +1,20 @@
-/* init freetile.js 
- ********************
-*/
-
-;(function($){
-	$(document).ready(function() {
-		$('#freetile').children().each(function() {
-			$(this).freetile({
-				animate: true,
-				elementDelay: 5,
-				selector: '.item'
-			});
-		});
-	});
-})(jQuery);
-
-				
-$(document).ready(function() {	
+$(document).ready(function() {
 
 /* 
-* Open / close long posts 
+* 1. init freetile.js 
+*/
+
+$('#freetile').children().each(function() {
+	$(this).freetile({
+		animate: true,
+		elementDelay: 5,
+		selector: '.item'
+	});
+});
+
+
+/* 
+* 2. Open / close long posts 
 */
 
 $(".open-button").show();
@@ -28,7 +24,7 @@ $(document.body).append("<div id='reader' class='reader hidden'><div class='read
 
 
 /*  
- 1. Let's define our closing function
+ 3. Let's define our closing function
 */
 
 (function( $ ){
@@ -40,7 +36,7 @@ $(document.body).append("<div id='reader' class='reader hidden'><div class='read
 })( jQuery );
 
 /*  
- 2. What happens when we open the reader
+ 4. What happens when we open the reader
 */
 
 $(".open-button").on("click", function() {
@@ -61,7 +57,7 @@ $(".open-button").on("click", function() {
 });
 
 /*  
- 2. What happens when we close the reader
+ 5. What happens when we close the reader
 */
 
 $(".close-button").on("click", function() {
