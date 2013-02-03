@@ -417,10 +417,12 @@ echo($template_head);
 echo($template_body_start);
 echo($template_body_header);
 echo(template($template_body_intro, $template_body_intro_values));
+echo($template_body_feed_start);
 // TODO: use a while to output each item after it has been read...
 foreach ($template_body_feed_item_values as $value) {
     echo(template($template_body_feed_item, $value));
 }
+echo($template_body_feed_end);
 echo($template_body_end);
 
 // a very simple template engine, with if and foreach

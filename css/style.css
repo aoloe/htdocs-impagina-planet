@@ -1,17 +1,16 @@
+
 	/* @group Normalize */
 	/*! normalize.css v1.0.1 | MIT License | git.io/normalize */article,aside,details,figcaption,figure,footer,header,intro,hgroup,nav,section,summary{display:block}audio,canvas,video{display:inline-block;*display:inline;*zoom:1}audio:not([controls]){display:none;height:0}[hidden]{display:none}html{font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html,button,input,select,textarea{font-family:sans-serif}body{margin:0}a:focus{outline:thin dotted}a:active,a:hover{outline:0}h1{font-size:2em;margin:.67em 0}h2{font-size:1.5em;margin:.83em 0}h3{font-size:1.17em;margin:1em 0}h4{font-size:1em;margin:1.33em 0}h5{font-size:.83em;margin:1.67em 0}h6{font-size:.75em;margin:2.33em 0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}blockquote{margin:1em 40px}dfn{font-style:italic}mark{background:#ff0;color:#000}p,pre{margin:1em 0}code,kbd,pre,samp{font-family:monospace,serif;_font-family:'courier new',monospace;font-size:1em}pre{white-space:pre;white-space:pre-wrap;word-wrap:break-word}q{quotes:none}q:before,q:after{content:'';content:none}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}dl,menu,ol,ul{margin:1em 0}dd{margin:0 0 0 40px}menu,ol,ul{padding:0 0 0 40px}nav ul,nav ol{list-style:none;list-style-image:none}img{border:0;-ms-interpolation-mode:bicubic}svg:not(:root){overflow:hidden}figure{margin:0}form{margin:0}fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0;white-space:normal;*margin-left:-7px}button,input,select,textarea{font-size:100%;margin:0;vertical-align:baseline;*vertical-align:middle}button,input{line-height:normal}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer;*overflow:visible}button[disabled],input[disabled]{cursor:default}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0;*height:13px;*width:13px}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}textarea{overflow:auto;vertical-align:top}table{border-collapse:collapse;border-spacing:0}
 	/* end of normalize.css */
 	/* @end */
 	
 	
-/* Colors */
-
 body,html {
-/*	font-family: "PT Serif";*/
 	font-family: 'Quattrocento Sans', 'PT Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
 /* @group Basics */
+/* ************************** */
 
 img {
 	display: block;
@@ -39,6 +38,7 @@ img {
 /* @end */
 
 /* @group Header */
+/* ************************** */
 
 .intro
 {	
@@ -51,31 +51,26 @@ img {
 /* @end */
 
 /* @group Feed Item */
+/* ************************** */
 
 .item {
-/*	border: 1px solid #333;*/
-	/*max-width: 400px;*/
 	width: 100%;
 	float: left;
 }
 
 .item-inside {
 	margin: 1em;
-/*	border: 1px solid #98a0b9;
-	border-radius: 5px;*/
 }
 
 .intro-title,
 .item-title {
 	margin-top: 0;
-/*	font-weight: normal;*/
 }
 
 .post-content {
 	line-height: 1.3em;
 	word-break: break-word;
 	word-wrap: break-word;
-/*	font-family: 'Crimson Text';*/
 }
 
 .post-content br {
@@ -95,7 +90,6 @@ img {
 	width: 100%;
 }
 .freetile-container {
-/*	width: 100%;*/
 	overflow-x: hidden;
 }
 
@@ -104,7 +98,6 @@ img {
 	max-height: 12em;
 	overflow: hidden;
 	position: relative;
-/*	border: 1px solid #333;*/
 }
 
 .open-close {
@@ -147,7 +140,7 @@ img {
 
 .reader .post-content {
 	height: auto;
-	/* to be redefined in JS! */
+	/* NOTE: this gets redefined by scripts.js */
 	overflow-y: auto;
 	font-size: 110%;
 	line-height: 1.5;
@@ -191,7 +184,6 @@ img {
 }
 
 .reader-bg {
-/*	background: #0f0;*/
 	top: 0px;
 	left: 0px;
 	position: fixed;
@@ -263,9 +255,8 @@ pre {
 	margin: 0em 0em;
 }
 
-/* COLORS 
-**************************
-*/
+/* @group Colors */
+/* ************************** */
 
 body,html {
 	color: #333;
@@ -331,46 +322,21 @@ pre {
 		background-color: rgba(105, 105, 105, 0.58);
 }
 
-/* CSS3 Media Queries
+/* @end */
+
+
+/* the list of feeds
 ******************************
- */ 
-
-@media only screen and (min-width: 768px) {
-  .item {
-  	width: 50%;
-  }
-  .expanded .post-content {
-/*  	text-align:justify;
-  	text-justify:inter-word;*/
-  }
-}
-@media only screen and (min-width: 992px) {
-  .item {
-  	width: 33.3%;
-  }
-}
-@media only screen and (min-width: 1382px) {
-  .item {
-  	width: 25%;
-  }
-  body {
-/*    max-width: 1440px;*/
-  }
-}
-
-
-/* the list of feeds */
+* NOTE: the number of columns is defined 
+* in the media queries section below 
+*/
 
 ul.feed-list {
-  column-count: 3;
-  column-gap: 10px;
-  -moz-column-count: 3;
   -moz-column-gap: 10px;
-  -webkit-column-count: 3;
   -webkit-column-gap: 10px;
-  -khtml-column-count: 3;
   -khtml-column-gap: 10px;
   column-rule: 1px solid #fc0;
+  column-gap: 10px;
 }
 ul.feed-list li {
   column-break-inside:avoid;
@@ -378,7 +344,8 @@ ul.feed-list li {
   -webkit-column-break-inside: avoid;
 }
 
-/* replicate the simplecms header */
+/* @group SimpleCMS Header */
+/* *********************************** */ 
 
 .header {
 	background-color: #d9dcce;
@@ -452,3 +419,52 @@ header nav li.current a {
 	-khtml-border-radius:40px;
 	-webkit-border-radius:40px;
 }
+
+/* @end */
+
+/* @group Media Queries */
+/* ***************************** */ 
+
+@media only screen and (min-width: 768px) {
+  .item {
+  	width: 50%;
+  }
+  .expanded .post-content {
+/*  	text-align:justify;
+  	text-justify:inter-word;*/
+  }
+  ul.feed-list {
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
+    -khtml-column-count: 2;
+    column-count: 2;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .item {
+  	width: 33.3%;
+  }
+  ul.feed-list {
+    -moz-column-count: 3;
+    -webkit-column-count: 3;
+    -khtml-column-count: 3;
+    column-count: 3;
+  }
+}
+@media only screen and (min-width: 1382px) {
+  .item {
+  	width: 25%;
+  }
+  body {
+/*    max-width: 1440px;*/
+  }
+  ul.feed-list {
+    -moz-column-count: 4;
+    -webkit-column-count: 4;
+    -khtml-column-count: 4;
+    column-count: 4;
+  }
+}
+
+/* @end */
+
