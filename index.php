@@ -107,6 +107,13 @@ $feed_source = array (
         'language' => 'de',
         'format' => 'markdown',
     ),
+    'http://forums.scribus.net/index.php' => array (
+        'feed' => 'http://forums.scribus.net/index.php?type=rss;action=.xml;sa=news',
+        'label' => 'The official Scribus Forums',
+        'author' => 'ScribusForum',
+        'css' => 'forum',
+        'url' => 'http://forums.scribus.net/',
+    ),
 );
 
 $template_head = <<<EOT
