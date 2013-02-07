@@ -12,6 +12,5 @@
 - add further types of feeds / use better or multiple services for the existing ones
 - add the original BSD license in the simplepie directory
 - add some credits (links) for the libraries and sources used (markdown, simplepie, wallflux, ...)
-- separate the logic from the template part (inside of the one file)
 - add a next / preview post in the item popup
 - add a "read more" / "read in context" link at the end of each entry (the link "under" the title is not enough)
