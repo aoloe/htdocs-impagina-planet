@@ -114,6 +114,16 @@ $feed_source = array (
         'css' => 'forum',
         'url' => 'http://forums.scribus.net/',
     ),
+    /* // XXX: the feed from transifex screws the simplepies output and makes ordered by feed instead of by date
+    'https://www.transifex.com/projects/p/Scribus_140/' => array (
+        'feed' => 'https://www.transifex.com/projects/p/Scribus_140/feed/',
+        'label' => 'Translations of Scribus strings',
+        'author' => 'Scribus',
+        'css' => 'blog',
+        'format' => 'text',
+        'url' => 'https://www.transifex.com/projects/p/Scribus_140/',
+    ),
+    */
 );
 
 $template_head = <<<EOT
