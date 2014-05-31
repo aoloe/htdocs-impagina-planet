@@ -21,13 +21,17 @@ $feed_source = array (
         'css' => 'google-plus',
         'url' => 'https://plus.google.com/b/109612024486187515483/109612024486187515483/posts'
     ),
+    /*
+    // twitter does not provide an rss feed anymore. the alternative: http://chrissimpkins.github.io/tweetledee/
+    // http://webapps.stackexchange.com/questions/41499/any-alternatives-for-twitter-rss-after-native-service-is-shut-down
     'http://twitter.com/scribus' => array (
-        'feed' => 'http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=scribus',
+        'feed' => 'https://api.twitter.com/1/statuses/user_timeline.rss?screen_name=scribus',
         'label' => 'twitter',
         'author' => 'Scribus',
         'css' => 'twitter',
         'url' => 'http://twitter.com/scribus',
     ),
+    */
     'https://www.facebook.com/groups/114175708594284' => array (
         'feed' => 'http://www.wallflux.com/info/114175708594284',
         'label' => 'facebook',
