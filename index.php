@@ -32,6 +32,13 @@ $feed_source = array (
         'url' => 'http://twitter.com/scribus',
     ),
     */
+    'http://twitter.com/scribus' => array (
+        'feed' => 'https://twitrss.me/twitter_user_to_rss/?user=scribus',
+        'label' => 'twitter',
+        'author' => 'Scribus',
+        'css' => 'twitter',
+        'url' => 'http://twitter.com/scribus',
+    ),
     'https://www.facebook.com/groups/114175708594284' => array (
         'feed' => 'http://www.wallflux.com/info/114175708594284',
         'label' => 'facebook',
@@ -102,12 +109,23 @@ $feed_source = array (
         'language' => 'fr',
         'format' => 'markdown',
     ),
+    /*
     'http://scribus-forum.de/node/3/feed' => array (
         'feed' => 'http://scribus-forum.de/node/3/feed',
         'label' => 'Scribus Forum: Die deutschsprachige Scribus Community',
         'author' => 'ScribusForum-de',
         'css' => 'forum',
         'url' => 'http://scribus-forum.de/group/scribus-rund-um-das-dtp-programm',
+        'language' => 'de',
+        'format' => 'markdown',
+    ),
+    */
+    'http://www.scribus-user.de/forum/index.php' => array (
+        'feed' => 'http://www.scribus-user.de/forum/feed.php?mode=topics',
+        'label' => 'Scribus Forum: Die deutschsprachige Scribus-Gemeinschaft',
+        'author' => 'Scribus-User.de',
+        'css' => 'forum',
+        'url' => 'http://scribus-user.de/forum',
         'language' => 'de',
         'format' => 'markdown',
     ),
@@ -188,7 +206,6 @@ $template_body_intro = <<<EOT
               <h2>Other communities</h2>
               <ul>
                 <li><a href="https://groups.google.com/forum/?hl=de#!forum/scribus-deutsch">Scribus Google Community</a></li>
-                <li><a href="https://scribus-forum.de/">Deutsches Scribus Forum</a></li>
                 <li><a href="https://groups.google.com/forum/?hl=de#!forum/scribus-deutsch">Deutsche Scribus Google Gruppe</a></li>
               </ul>
               <p>Please <a href="http://impagina.org/contact/">let us know</a> if there are other feeds that should be included.</p>
@@ -275,6 +292,7 @@ $template_body_intro_values = array (
 );
 $template_body_feed_item_values = array();
 $id = 0;
+// debug('feed_source', $feed_source);
 foreach ($feed->get_items() as $item) {
     // debug('item', $item);
     // debug('item permalink', $item->get_permalink());
