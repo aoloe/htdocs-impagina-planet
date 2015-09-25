@@ -183,8 +183,10 @@ $template_body_header = <<<EOT
           <ul>
             <li><a href="http://impagina.org/" title="Resources for the Scribus contributors">Home</a></li>
 <li class="current planet"><a href="http://impagina.org/planet/" title="Planet">Planet</a></li>
+<li class="newsletter"><a href="http://impagina.org/newsletter/" title="Newsletter">Newsletter</a></li>
+<li class="contribute"><a href="http://impagina.org/contribute/" title="Contribute">Contribute</a></li>
 <li class="usability"><a href="http://impagina.org/usability/" title="Scribus UX / UI Design">Usability</a></li>
-<li class="projects"><a href="http://impagina.org/projects/" title="Projects">Projects</a></li>
+<li class="blog"><a href="http://impagina.org/blog/" title="Blog">Blog</a></li>
 <li class="about"><a href="http://impagina.org/about/" title="About">About</a></li>
 <li class="contact"><a href="http://impagina.org/contact/" title="Contact">Contact</a></li>
           </ul>
