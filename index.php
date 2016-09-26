@@ -24,7 +24,7 @@ $feed_source = array (
     /*
     // twitter does not provide an rss feed anymore. the alternative: http://chrissimpkins.github.io/tweetledee/
     // http://webapps.stackexchange.com/questions/41499/any-alternatives-for-twitter-rss-after-native-service-is-shut-down
-    'http://twitter.com/scribus' => array (
+    'https://twitter.com/scribus' => array (
         'feed' => 'https://api.twitter.com/1/statuses/user_timeline.rss?screen_name=scribus',
         'label' => 'twitter',
         'author' => 'Scribus',
@@ -32,7 +32,7 @@ $feed_source = array (
         'url' => 'http://twitter.com/scribus',
     ),
     */
-    'http://twitter.com/scribus' => array (
+    'https://twitter.com/scribus' => array (
         'feed' => 'https://twitrss.me/twitter_user_to_rss/?user=scribus',
         'label' => 'twitter',
         'author' => 'Scribus',
@@ -46,8 +46,8 @@ $feed_source = array (
         'css' => 'facebook',
         'url' => 'http://www.facebook.com/groups/114175708594284/',
     ),
-    'http://rants.scribus.net/' => array (
-        'feed' => 'http://rants.scribus.net/feed/',
+    'https://rants.scribus.net/' => array (
+        'feed' => 'https://rants.scribus.net/feed/',
         'label' => 'Scribus developer blog',
         'author' => 'Scribus',
         'css' => 'blog',
@@ -61,8 +61,8 @@ $feed_source = array (
         'url' => 'http://graphicslab.org/blog',
         'tag' => 'scribus',
     ),
-    'http://seenthis.net/people/chelen' => array (
-        'feed' => 'http://seenthis.net/people/chelen/feed',
+    'https://seenthis.net/people/chelen' => array (
+        'feed' => 'https://seenthis.net/people/chelen/feed',
         'label' => 'Chelen\'s GSoC 2012 (Undo / UI)',
         'author' => 'Chelen',
         'css' => 'blog',
@@ -120,8 +120,8 @@ $feed_source = array (
         'format' => 'markdown',
     ),
     */
-    'http://www.scribus-user.de/forum/index.php' => array (
-        'feed' => 'http://www.scribus-user.de/forum/feed.php?mode=topics',
+    'https://www.scribus-user.de/forum/index.php' => array (
+        'feed' => 'https://www.scribus-user.de/forum/feed.php?mode=topics',
         'label' => 'Scribus Forum: Die deutschsprachige Scribus-Gemeinschaft',
         'author' => 'Scribus-User.de',
         'css' => 'forum',
