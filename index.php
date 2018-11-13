@@ -39,6 +39,7 @@ $feed_source = array (
         'css' => 'twitter',
         'url' => 'http://twitter.com/scribus',
     ),
+    /** does not work anymore
     'https://www.facebook.com/groups/114175708594284' => array (
         'feed' => 'http://www.wallflux.com/info/114175708594284',
         'label' => 'facebook',
@@ -46,6 +47,7 @@ $feed_source = array (
         'css' => 'facebook',
         'url' => 'http://www.facebook.com/groups/114175708594284/',
     ),
+    */
     'https://rants.scribus.net/' => array (
         'feed' => 'https://rants.scribus.net/feed/',
         'label' => 'Scribus developer blog',
@@ -53,6 +55,7 @@ $feed_source = array (
         'css' => 'blog',
         'url' => 'http://rants.scribus.net',
     ),
+    /* no updates anymore
     'http://graphicslab.org/blog' => array (
         'feed' => 'http://graphicslab.org/blog/?rss',
         'label' => 'a.l.e\'s graphicslab',
@@ -61,6 +64,8 @@ $feed_source = array (
         'url' => 'http://graphicslab.org/blog',
         'tag' => 'scribus',
     ),
+    */
+    /* no updates anymore
     'https://seenthis.net/people/chelen' => array (
         'feed' => 'https://seenthis.net/people/chelen/feed',
         'label' => 'Chelen\'s GSoC 2012 (Undo / UI)',
@@ -70,6 +75,8 @@ $feed_source = array (
         'language' => 'fr',
         'format' => 'markdown',
     ),
+    */
+    /* no updates anymore
     'http://googlesummerofscribus.blogspot.com/' => array (
         'feed' => 'http://googlesummerofscribus.blogspot.com/feeds/posts/default?alt=rss',
         'label' => 'Rajat\'s GSoC 2012 (Project manager)',
@@ -77,23 +84,25 @@ $feed_source = array (
         'css' => 'blog',
         'url' => 'http://googlesummerofscribus.blogspot.in/',
     ),
-    'http://summerofscribus.blogspot.com/' => array (
-        'feed' => 'http://summerofscribus.blogspot.com/feeds/posts/default?alt=rss',
-        'label' => 'Parthasarathy \'s GSoC 2012 (New file format)',
-        'author' => 'Parthasarathy',
-        'css' => 'blog',
-        'url' => 'http://summerofscribus.blogspot.in/',
-    ),
-    'http://blog.gmane.org/gmane.comp.graphics.scribus' => array (
-        'feed' => 'http://rss.gmane.org/topics/excerpts/gmane.comp.graphics.scribus',
+    */
+    'http://lists.scribus.net/pipermail/scribus' => array (
+        'feed' => 'http://impagina.org/planet/tools/scribus-ml-to-rss.php?feed=scribus',
         'label' => 'Threads from the Scribus mailing list',
         'author' => 'Scribus',
         'css' => 'mailinglist',
         'format' => 'text',
         'url' => 'http://lists.scribus.net/pipermail/scribus',
     ),
-    'http://blog.gmane.org/gmane.comp.graphics.scribus.scm' => array (
-        'feed' => 'http://rss.gmane.org/topics/excerpts/gmane.comp.graphics.scribus.scm',
+    'http://lists.scribus.net/pipermail/scribus-dev' => array (
+        'feed' => 'http://impagina.org/planet/tools/scribus-ml-to-rss.php?feed=scribus-dev',
+        'label' => 'Threads from the Scribus Development mailing list',
+        'author' => 'Scribus',
+        'css' => 'mailinglist',
+        'format' => 'text',
+        'url' => 'http://lists.scribus.net/pipermail/scribus-dev',
+    ),
+    'http://lists.scribus.net/pipermail/scribus-commit' => array (
+        'feed' => 'http://impagina.org/planet/tools/scribus-ml-to-rss.php?feed=scribus-commit',
         'label' => 'Commits to the Scribus main source code',
         'author' => 'Scribus',
         'css' => 'source-code',
@@ -109,17 +118,6 @@ $feed_source = array (
         'language' => 'fr',
         'format' => 'markdown',
     ),
-    /*
-    'http://scribus-forum.de/node/3/feed' => array (
-        'feed' => 'http://scribus-forum.de/node/3/feed',
-        'label' => 'Scribus Forum: Die deutschsprachige Scribus Community',
-        'author' => 'ScribusForum-de',
-        'css' => 'forum',
-        'url' => 'http://scribus-forum.de/group/scribus-rund-um-das-dtp-programm',
-        'language' => 'de',
-        'format' => 'markdown',
-    ),
-    */
     'https://www.scribus-user.de/forum/index.php' => array (
         'feed' => 'https://www.scribus-user.de/forum/feed.php?mode=topics',
         'label' => 'Scribus Forum: Die deutschsprachige Scribus-Gemeinschaft',
@@ -262,6 +260,7 @@ require_once('simplepie/autoloader.php');
 // We'll process this feed with all of the default options.
 $feed = new SimplePie();
 
+// $feed->set_timeout(30);
  
 // Set which feed to process.
 $list = array();
@@ -275,6 +274,7 @@ foreach ($feed_source as $key => $value) {
     );
 }
 $feed->set_feed_url($list);
+// debug('list', $list);
 unset($list);
  
 // Run SimplePie.
@@ -314,6 +314,8 @@ foreach ($feed->get_items() as $item) {
     $feed_link = $item->get_feed()->get_permalink(); // the permalink of the item's feed is the only way to find out to what source belongs the specific item and, then, access the settings defined above
 
     if (!array_key_exists($feed_link, $feed_source)) {
+        // debug('item', $item);
+        debug('feed_source', $feed_source);
         debug('feed not correctly registered: fix the key', $feed_link);
         continue;
     }
@@ -476,12 +478,16 @@ function template($template, $parameter = null) {
         function ($match)  use ($parameter) {
             $result = '';
             if ($match[1] == 'foreach') {
-                foreach ($parameter[$match[2]] as $item) {
-                    foreach ($item as $key => $value) {
-                        unset($item[$key]);
-                        $item['{{'.$key.'}}'] = $value;
+                if ($match[3] == '') {
+                    $result .= implode("\n", $parameter[$match[2]]);
+                } else {
+                    foreach ($parameter[$match[2]] as $item) {
+                        foreach ($item as $key => $value) {
+                            unset($item[$key]);
+                            $item['{{'.$key.'}}'] = $value;
+                        }
+                        $result .= strtr($match[3], $item);
                     }
-                    $result .= strtr($match[3], $item);
                     // $result .= preg_replace('/{{*.?}}/', array_keys($value[$match[2]]), array_values($value[$match[2]]));
                 }
             } elseif ($match[1] == 'if') {
