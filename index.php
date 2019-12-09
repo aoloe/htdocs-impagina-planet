@@ -109,7 +109,7 @@ $feed_source = array (
         'format' => 'text',
         'url' => 'http://lists.scribus.net/pipermail/scribus-commit',
     ),
-    'http://www.linuxgraphic.org/forums/index.php' => array (
+    'https://www.linuxgraphic.org/forums/index.php' => array (
         'feed' => 'http://www.linuxgraphic.org/forums/feed.php?f=20',
         'label' => 'Forum de Linuxgraphics sur Scribus',
         'author' => 'Linuxgraphics',
