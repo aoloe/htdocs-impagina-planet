@@ -110,11 +110,11 @@ $feed_source = array (
         'url' => 'http://lists.scribus.net/pipermail/scribus-commit',
     ),
     'https://www.linuxgraphic.org/forums/index.php' => array (
-        'feed' => 'http://www.linuxgraphic.org/forums/feed.php?f=20',
+        'feed' => 'https://www.linuxgraphic.org/forums/feed.php?f=20',
         'label' => 'Forum de Linuxgraphics sur Scribus',
         'author' => 'Linuxgraphics',
         'css' => 'forum',
-        'url' => 'http://www.linuxgraphic.org/forums/viewforum.php?f=20',
+        'url' => 'https://www.linuxgraphic.org/forums/viewforum.php?f=20',
         'language' => 'fr',
         'format' => 'markdown',
     ),
@@ -173,7 +173,7 @@ $template_body_header = <<<EOT
       <div class="wrapper">
         
         <!-- logo/sitename -->
-        <a href="http://impagina.org/" id="logo" ><img src="http://impagina.org/theme/Innovation/assets/images/impagina_logo.png" /></a>
+        <a href="http://impagina.org/" id="logo" ><img src="http://impagina.org/user/themes/impagina-quark/images/logo/impagina.png" /></a>
         
         <!-- main navigation -->
         <nav id="main-nav">
